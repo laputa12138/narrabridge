@@ -2,6 +2,9 @@
 
 > **Last updated:** 2026-06-10
 > **Current phase:** ① Manual validation
+>
+> **👉 For implementation instructions, see [AGENTS.md](AGENTS.md).**
+> This file is the architecture reference. AGENTS.md is the executable dev spec.
 
 ---
 

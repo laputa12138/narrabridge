@@ -1,0 +1,258 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "NarraBridge Agent I/O Schemas",
+  "description": "Data contracts for all 5 agents. Every agent reads from the previous agent's output.",
+
+  "Agent1_ProjectReader": {
+    "description": "Reads a codebase and extracts a structured technical profile.",
+    "input": {
+      "project_path": {"type": "string", "example": "/home/yuanming/trust-eval"}
+    },
+    "output": {
+      "tech_profile": {
+        "tech_stack": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "High-level technology categories, e.g., ['multi-agent', 'RAG', 'post-hoc verification']",
+          "example": ["multi-agent orchestration", "RAG pipeline", "post-hoc fact verification", "NLI-based audit"]
+        },
+        "core_innovation": {
+          "type": "string",
+          "description": "One-sentence summary of what is novel",
+          "example": "ABMS report generation with a decoupled TRUST post-hoc audit layer that verifies claims after generation."
+        },
+        "experimental_setup": {
+          "dataset": {"type": "string", "example": "244 USAF intelligence manuals"},
+          "dataset_size": {"type": "integer", "example": 244},
+          "topic": {"type": "string", "example": "ISR (Intelligence, Surveillance, Reconnaissance)"},
+          "evaluation_metrics": {
+            "type": "array",
+            "items": {"type": "string"},
+            "example": ["CSS score", "NLI entailment ratio", "citation accuracy"]
+          },
+          "baseline": {"type": "string", "example": "ABMS without TRUST audit layer"}
+        },
+        "existing_results": {
+          "type": "string",
+          "description": "Summary of what has been demonstrated",
+          "example": "10-agent pipeline generates ISR reports with post-hoc credibility scoring. TRUST audit layer catches ~XX% of unsupported claims."
+        },
+        "modules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string"},
+              "purpose": {"type": "string"},
+              "file": {"type": "string"}
+            }
+          },
+          "example": [
+            {"name": "ABMS Agents", "purpose": "10 agents produce intelligence reports", "file": "agents/"},
+            {"name": "TRUST Audit", "purpose": "Post-hoc verification of generated claims", "file": "core/posterior_verifier.py"},
+            {"name": "Citation Tracker", "purpose": "Trace every claim to its source document", "file": "core/citation_tracker.py"}
+          ]
+        }
+      }
+    }
+  },
+
+  "Agent2_ProblemMapper": {
+    "description": "Maps an engineering artifact to an intelligence studies problem type.",
+    "input": {
+      "tech_profile": {"$ref": "#/Agent1_ProjectReader/output/tech_profile"}
+    },
+    "output": {
+      "problem_type": {
+        "type": "string",
+        "description": "From the 8-category taxonomy in literature_analysis.md",
+        "example": "AI生成内容的质量控制与可信评估"
+      },
+      "confidence": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "description": "Confidence score of the problem type classification"
+      },
+      "alternative_types": {
+        "type": "array",
+        "items": {"type": "string"},
+        "description": "Other plausible problem type assignments"
+      },
+      "top_papers": {
+        "type": "array",
+        "maxItems": 10,
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {"type": "string", "description": "Paper ID from 情报学报"},
+            "title": {"type": "string"},
+            "relevance_reason": {"type": "string"},
+            "excerpt": {"type": "string", "description": "Quoted problem statement from the paper"}
+          }
+        }
+      },
+      "query_translations": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "nlp_term": {"type": "string", "example": "NLI verification"},
+            "qingbao_term": {"type": "string", "example": "蕴含关系验证"},
+            "query_used": {"type": "string", "example": "情报分析 可信度 验证 后验检验"}
+          }
+        }
+      }
+    }
+  },
+
+  "Agent3_NarrativeExtractor": {
+    "description": "Extracts narrative patterns and terminology from top papers.",
+    "input": {
+      "top_papers": {"$ref": "#/Agent2_ProblemMapper/output/top_papers"}
+    },
+    "output": {
+      "intro_structure": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "stage": {"type": "string", "description": "Narrative stage, e.g., 'problem background'"},
+            "description": {"type": "string"},
+            "example_from_paper": {"type": "string"},
+            "paper_id": {"type": "string"}
+          }
+        },
+        "description": "Standard introduction narrative stages found across top papers"
+      },
+      "method_description_conventions": {
+        "type": "array",
+        "items": {"type": "string"},
+        "description": "Patterns found in how methods are described (e.g., 'always starts with architecture overview', 'uses pseudocode', 'references existing frameworks')"
+      },
+      "terminology_mapping": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "your_word": {"type": "string"},
+            "journal_word": {"type": "string"},
+            "frequency_in_top_papers": {"type": "integer"},
+            "context_example": {"type": "string"}
+          }
+        }
+      },
+      "experiment_checklist": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "type": {"type": "string", "description": "e.g., 'ablation', 'comparative', 'case study'"},
+            "required": {"type": "boolean", "description": "Is this type of experiment considered mandatory?"},
+            "example_paper_id": {"type": "string"}
+          }
+        }
+      }
+    }
+  },
+
+  "Agent4_PaperGenerator": {
+    "description": "Generates paper drafts from tech profile + narrative patterns.",
+    "input": {
+      "tech_profile": {"$ref": "#/Agent1_ProjectReader/output/tech_profile"},
+      "problem_mapping": {"$ref": "#/Agent2_ProblemMapper/output"},
+      "narrative_template": {"$ref": "#/Agent3_NarrativeExtractor/output"}
+    },
+    "output": {
+      "title_suggestions": {
+        "type": "array",
+        "items": {"type": "string"},
+        "minItems": 3,
+        "maxItems": 5
+      },
+      "introduction": {
+        "type": "string",
+        "description": "Complete intro section in Chinese, 情报学报 style. 800-1200 chars."
+      },
+      "related_work": {
+        "type": "string",
+        "description": "Classified bibliography with sections. Each section maps to a sub-problem type."
+      },
+      "methods": {
+        "type": "string",
+        "description": "Method description translated from technical docs. Uses 情报学报 terminology."
+      },
+      "suggested_experiments": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {"type": "string"},
+            "rationale": {"type": "string"},
+            "paper_reference": {"type": "string", "description": "Paper that does similar experiment"}
+          }
+        }
+      },
+      "experiment_gap_analysis": {
+        "type": "string",
+        "description": "What experiments are missing vs. peer papers? Why are they needed?"
+      }
+    }
+  },
+
+  "Agent5_PeerReviewer": {
+    "description": "Reviews a paper draft against 情报学报 norms.",
+    "input": {
+      "paper_draft": {"$ref": "#/Agent4_PaperGenerator/output"},
+      "narrative_template": {"$ref": "#/Agent3_NarrativeExtractor/output"}
+    },
+    "output": {
+      "terminology_issues": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "your_word": {"type": "string"},
+            "suggested": {"type": "string"},
+            "paper_evidence": {"type": "string", "description": "Paper ID + excerpt showing standard usage"}
+          }
+        }
+      },
+      "structure_issues": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "section": {"type": "string"},
+            "issue": {"type": "string"},
+            "peer_paper_comparison": {"type": "string"}
+          }
+        }
+      },
+      "citation_gaps": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "should_cite": {"type": "string", "description": "Paper that should be cited"},
+            "reason": {"type": "string"}
+          }
+        }
+      },
+      "contribution_framing_issues": {
+        "type": "array",
+        "items": {"type": "string"},
+        "description": "Places where 'we built a system' should be 'we solve a problem'"
+      },
+      "overall_assessment": {
+        "type": "string",
+        "enum": ["ready", "minor_revision", "major_revision", "reject"],
+        "description": "Overall quality assessment"
+      },
+      "summary": {
+        "type": "string",
+        "description": "3-5 sentence summary of review findings"
+      }
+    }
+  }
+}
