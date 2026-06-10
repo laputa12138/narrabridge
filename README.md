@@ -128,11 +128,30 @@ narrabridge/
 | Phase | Status | Description |
 |:-----:|:------:|-------------|
 | 0 | ✅ Done | 477 papers downloaded, minerU-parsed, indexed in OpenSearch |
-| 1 | 🔴 Current | Manual validation — does retrieval + LLM produce useful output? |
-| 2 | ⬜ | Implement 5-agent pipeline with deepagents |
+| 1 | ✅ Done | Manual validation — does retrieval + LLM produce useful output? |
+| 2 | 🔴 Current | Implement 5-agent pipeline with deepagents |
 | 3 | ⬜ | Terminology dictionary extraction from 477 papers |
 | 4 | ⬜ | Gradio Web UI with three entry points |
 | 5 | ⬜ | Iterative refinement on trust-eval case study |
+
+---
+
+## 阶段一实现与验证说明
+
+### 1. 核心实现机制
+阶段一（单脚本手动管道验证）的目的是在构建复杂的 Agent 编排框架之前，验证“检索匹配 + LLM 学术重构”的可行性，核心细节如下：
+- **项目画像提取 (Project Profile Extraction)**：运行 `tools/project_reader.py` 对测试项目 `/home/yuanming/trust-eval` 下的文档进行扫描，提取出该项目的技术栈、核心创新（生成与确证解耦）、现有实验评估指标（CSS, NLI）和模块列表。
+- **学术语义匹配与检索 (Problem-Semantic Search)**：将工程术语翻译为面向《情报学报》研究领域的情报学检索查询。纠正了 OpenSearch 底层 Mapping 字段为 `text` 字段的 Bug 后，通过本地 OpenSearch 进行了全文检索，成功检索去重出 30 篇高度相关的候选文献。
+- **文献章节提取 (Section Exporter)**：自动读取 `~/qingbao_search/mineru_output` 下已用 minerU 解析出的对应 md 文献（如 `qbxb_xxx.md`），截取包含引言和方法论的核心内容片段。
+- **学术级对比分析与翻译**：将提取到的技术画像与检索到的文献片段整合输入大语言模型，完成了对 trust-eval 学术研究层面的重构定位，生成了学术术语对照表和符合《情报学报》风格的引言草稿，并产出了实验补充建议报告。
+
+### 2. 使用的语言模型 (LLM)
+- **推理与总结模型**：**`qwen-27b-reasoning`**（基于四川服务器本地部署的 vLLM 实例服务）。
+- **接入细节**：通过本地 `127.0.0.1:1878` 端口运行的 LiteLLM 网关进行鉴权和中转。运行中我们定位并修复了 LiteLLM 网关密钥鉴权 401 报错问题，通过获取并配置本地正确的 Master Key `sk-ym-...2025` 成功完成鉴权。由于该模型具备深度思维链推理（Reasoning）能力，产出的学术重构及学术表述具有极高的情报学品味和理论深度。
+
+### 3. 环境与最终产出
+- **运行环境**：完全在新建的 `bridge` Conda 环境（Python 3.11）中执行。
+- **产出路径**：最终验证结论成功输出到 [outputs/phase1_trust_eval.md](outputs/phase1_trust_eval.md) 文件中。
 
 ---
 

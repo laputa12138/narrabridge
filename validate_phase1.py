@@ -209,8 +209,8 @@ def step5_llm_analyze(profile: dict, search_results: dict, papers: list[dict]) -
         return f"# LLM Analysis (SKIPPED)\n\n## Prompt that would be sent\n\n```\n{prompt[:2000]}...\n```"
 
     try:
-        from langchain.chat_models import ChatOpenAI
-        from langchain.schema import HumanMessage
+        from langchain_openai import ChatOpenAI
+        from langchain_core.messages import HumanMessage
 
         llm = ChatOpenAI(
             model=LLM_MODEL,
@@ -220,7 +220,7 @@ def step5_llm_analyze(profile: dict, search_results: dict, papers: list[dict]) -
             max_tokens=4096,
         )
 
-        response = llm([HumanMessage(content=prompt)])
+        response = llm.invoke([HumanMessage(content=prompt)])
         output = response.content
         print(f"LLM output: {len(output)} chars")
         return output

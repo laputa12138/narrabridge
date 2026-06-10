@@ -59,17 +59,17 @@ def text_search(query: str, top_k: int = 10) -> list[dict]:
             body={
                 "query": {
                     "match": {
-                        "content": {
+                        "text": {
                             "query": query,
                             "operator": "or",
                         }
                     }
                 },
                 "size": top_k,
-                "_source": ["id", "title", "content", "keywords"],
+                "_source": ["id", "title", "text"],
                 "highlight": {
                     "fields": {
-                        "content": {"fragment_size": 200, "number_of_fragments": 3}
+                        "text": {"fragment_size": 200, "number_of_fragments": 3}
                     }
                 },
             },
@@ -104,7 +104,7 @@ def vector_search(embedding: list[float], top_k: int = 10) -> list[dict]:
                         }
                     }
                 },
-                "_source": ["id", "title", "content", "keywords"],
+                "_source": ["id", "title", "text"],
             },
         )
         return _format_results(result, top_k)
@@ -178,12 +178,12 @@ def _format_results(raw_result: dict, top_k: int) -> list[dict]:
 
 
 def _extract_snippet(source: dict, hit: dict) -> str:
-    """Extract a readable snippet from content or highlight."""
-    highlight = hit.get("highlight", {}).get("content", [])
+    """从文本或高亮内容中提取可读的片段。"""
+    highlight = hit.get("highlight", {}).get("text", [])
     if highlight:
         return " ... ".join(highlight)[:500]
-    content = source.get("content", "")
-    return content[:500] if content else ""
+    text_content = source.get("text", "")
+    return text_content[:500] if text_content else ""
 
 
 # ── Index Health ───────────────────────────────────────────────────────────
