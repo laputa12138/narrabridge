@@ -1,0 +1,90 @@
+{
+  "tech_stack": [
+    "LLM orchestration",
+    "NLI verification",
+    "RAG",
+    "Reranker",
+    "citation tracking",
+    "document parsing",
+    "embedding",
+    "fact verification",
+    "multi-agent",
+    "post-hoc audit"
+  ],
+  "core_innovation": "生成与确证解耦。** ABMS 的 10 个 Agent 负责产出报告，TRUST-EVAL 作为独立审计层做后验验证。验证器不参与生成决策——它只审计已经产出的内容。",
+  "experimental_setup": {
+    "dataset": "ISR mini dataset",
+    "dataset_size": 10,
+    "topic": "未在文档中找到",
+    "evaluation_metrics": [
+      "CSS",
+      "css",
+      "NLI",
+      "nli"
+    ],
+    "baseline": "未在文档中找到"
+  },
+  "existing_results": "未在文档中找到",
+  "modules": [
+    {
+      "name": "GPU",
+      "purpose": "显存",
+      "file": ""
+    },
+    {
+      "name": "LLM",
+      "purpose": "Qwen3.6-35B-A3B (served: qwen-27b-reasoning)",
+      "file": ""
+    },
+    {
+      "name": "Embedding",
+      "purpose": "Qwen3-Embedding-0.6B (served: qwen-emb)",
+      "file": ""
+    },
+    {
+      "name": "Reranker",
+      "purpose": "Qwen3-Reranker-0.6B (served: qwen-rerank)",
+      "file": ""
+    },
+    {
+      "name": "MinerU",
+      "purpose": "—",
+      "file": ""
+    },
+    {
+      "name": "LiteLLM",
+      "purpose": "网关",
+      "file": ""
+    },
+    {
+      "name": "AtomicFactDecomposer",
+      "purpose": "`core/atomic_fact_decomposer.py`",
+      "file": ""
+    },
+    {
+      "name": "NLIVerifier",
+      "purpose": "`core/nli_verifier.py`",
+      "file": ""
+    },
+    {
+      "name": "CSSCalculator",
+      "purpose": "`core/css_calculator.py`",
+      "file": ""
+    },
+    {
+      "name": "CitationAuditor",
+      "purpose": "`core/citation_auditor.py`",
+      "file": ""
+    },
+    {
+      "name": "RGICalculator",
+      "purpose": "`core/rgi_calculator.py`",
+      "file": ""
+    },
+    {
+      "name": "EntropyGuard",
+      "purpose": "`core/entropy_guard.py`",
+      "file": ""
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "problem_type": "AI生成内容的可信评估与质量控制",
+  "confidence": 0.85,
+  "alternative_types": [
+    "多智能体系统与协同分析",
+    "知识图谱与语义推理"
+  ],
+  "top_papers": [
+    {
+      "id": "ed8f2a36_25",
+      "title": "科技创新弱信号早期感知方法探究与前瞻",
+      "relevance_reason": "该论文专门讨论情报感知效果的评估与验证，包括统计分布检验、异常数值识别、事后重复调查的偏差估计等方法，与TRUST-EVAL的后验验证机制高度对应。",
+      "excerpt": "情报感知的准确性验证方面，效果评估方法主要包括统计分布检验[68]、异常数值识别[69]和基于事后重复调查的偏差估计[70]。"
+    },
+    {
+      "id": "3b36f552_19",
+      "title": "融合情报思维的科技发展态势感知模式研究",
+      "relevance_reason": "该论文提出批判性思维要求评估情报分析结果并进行验证，与TRUST-EVAL的独立审计层设计理念一致。",
+      "excerpt": "批判性思维不仅要评估情报分析结果，还要验证其逻辑一致性和证据充分性。"
+    },
+    {
+      "id": "26644137_50",
+      "title": "基于技术预见视角的弱信号识别研究综述",
+      "relevance_reason": "该论文系统综述了弱信号识别结果的验证方法，包括专家验证法、文献验证法、发展趋势验证法等，与TRUST-EVAL的多维度验证框架形成对照。",
+      "excerpt": "表6 基于技术预见视角的弱信号识别结果验证方法：专家验证法、文献验证法、发展趋势验证法。"
+    }
+  ],
+  "query_translations": [
+    {
+      "nlp_term": "post-hoc verification, audit",
+      "qingbao_term": "后验检验, 可信度评估, 质量审计"
+    },
+    {
+      "nlp_term": "multi-agent, orchestration",
+      "qingbao_term": "多智能体协同, 人机协同, 协同分析"
+    },
+    {
+      "nlp_term": "RAG, retrieval",
+      "qingbao_term": "检索增强, 知识检索, 信息检索"
+    },
+    {
+      "nlp_term": "NLI entailment",
+      "qingbao_term": "语义蕴含, 文本推理, 语义推理"
+    },
+    {
+      "nlp_term": "fact verification",
+      "qingbao_term": "事实验证, 信息核实, 准确性验证"
+    },
+    {
+      "nlp_term": "citation tracking",
+      "qingbao_term": "引用溯源, 来源追踪, 文献溯源"
+    },
+    {
+      "nlp_term": "document parsing",
+      "qingbao_term": "文档解析, 信息抽取, 知识提取"
+    },
+    {
+      "nlp_term": "embedding",
+      "qingbao_term": "语义表示, 向量表示, 语义嵌入"
+    },
+    {
+      "nlp_term": "Reranker",
+      "qingbao_term": "重排序, 排序优化, 结果重排"
+    },
+    {
+      "nlp_term": "LLM orchestration",
+      "qingbao_term": "大语言模型编排, 智能体编排, 模型协同"
+    }
+  ]
+}
