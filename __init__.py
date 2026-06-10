@@ -126,7 +126,10 @@ def translate_pipeline(project_path: str):
     print(f"🔍 成功读取了 {len(enriched_papers)} 篇文献的全文片段。")
 
     print("→ 正在运行 Narrative Extractor 提取论文叙事特征...")
-    narrative_template = run_structured_agent("narrative_extractor", "Agent3_NarrativeExtractor", enriched_papers)
+    input_extractor = {
+        "top_papers": enriched_papers
+    }
+    narrative_template = run_structured_agent("narrative_extractor", "Agent3_NarrativeExtractor", input_extractor)
     
     narrative_path = proj_output_dir / "narrative_patterns.json"
     narrative_path.write_text(json.dumps(narrative_template, ensure_ascii=False, indent=2), encoding="utf-8")

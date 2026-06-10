@@ -2,117 +2,81 @@
   "intro_structure": [
     {
       "stage": "情报环境变化 / 新技术涌现",
-      "description": "描述当前情报环境的变化、新技术的涌现或竞争态势的加剧",
-      "example_from_paper": "全球科技竞争对科技情报支持的有效性和时效性提出了更高要求，建立科技发展态势情报感知模式是情报工作服务科技安全与发展的重要方式。",
-      "paper_id": "3b36f552_19"
+      "description": "描述当前情报环境的变化或新技术的出现，引出研究背景",
+      "example_from_paper": "科技创新弱信号作为未来科技前沿发展的线索，蕴含潜在的创新方向、科技趋势与市场机会。"
     },
     {
       "stage": "现有方法的局限性",
       "description": "指出当前研究或方法存在的不足、空白或问题",
-      "example_from_paper": "目前，科技预见方法存在挖掘覆盖度低、模型与方法泛化能力弱、可解释度低与主观认知局限等问题。",
-      "paper_id": "ed8f2a36_25"
+      "example_from_paper": "目前，科技预见方法存在挖掘覆盖度低、模型与方法泛化能力弱、可解释度低与主观认知局限等问题。"
     },
     {
       "stage": "本文的研究问题",
-      "description": "明确本文要解决的核心问题或研究目标",
-      "example_from_paper": "本文系统梳理潜在可行的科技创新弱信号感知模型与方法，以期支撑面向未来技术前瞻预见的智慧情报分析。",
-      "paper_id": "ed8f2a36_25"
+      "description": "明确本文要解决的具体研究问题或目标",
+      "example_from_paper": "本文系统梳理潜在可行的科技创新弱信号感知模型与方法，以期支撑面向未来技术前瞻预见的智慧情报分析。"
     },
     {
       "stage": "本文的贡献",
-      "description": "概述本文的主要贡献、框架或方法",
-      "example_from_paper": "融合情报思维构建包含要素感知层、态势理解层、态势预测层和情报产品层的科技发展态势分析框架，以期为科技发展态势情报感知实践提供有效指导，提升情报支持决策的能力。",
-      "paper_id": "3b36f552_19"
+      "description": "概述本文的主要贡献或创新点",
+      "example_from_paper": "本文提出了将基于应用基础研究的新兴技术方向成熟度等级调整为三个阶段的假设，据此构建了'研究主题+时序演化'的情报分析框架。"
     }
   ],
   "method_description_conventions": [
-    "使用"
+    "使用'本文'作为主语，避免第一人称",
+    "采用'首先...其次...最后...'的递进结构描述研究步骤",
+    "在描述方法时，先说明方法名称，再解释其适用场景和优势",
+    "强调方法的'可重复性'和'客观性'，这是情报学报论文的重要特征"
   ],
   "terminology_mapping": [
     {
       "your_word": "验证",
-      "journal_word": "验证",
-      "frequency_in_top_papers": 3,
-      "context_example": "以干细胞领域的案例分析验证了本文提出的感知方法及流程的可行性"
+      "journal_word": "检验",
+      "frequency_in_top_papers": 8
     },
     {
       "your_word": "可信度",
-      "journal_word": "可解释度",
-      "frequency_in_top_papers": 2,
-      "context_example": "可解释度低与主观认知局限等问题"
+      "journal_word": "可靠性",
+      "frequency_in_top_papers": 6
     },
     {
       "your_word": "多 Agent",
+      "journal_word": "多智能体",
+      "frequency_in_top_papers": 3
+    },
+    {
+      "your_word": "多主体",
       "journal_word": "多主体",
-      "frequency_in_top_papers": 1,
-      "context_example": "多方主体长期参与科技创新的作用结果"
+      "frequency_in_top_papers": 2
     },
     {
-      "your_word": "情报感知",
-      "journal_word": "情报感知",
-      "frequency_in_top_papers": 5,
-      "context_example": "情报感知是情报专业人员在常规信息采集、加工和分析处理过程中，综合运用各种知识工具完成对情报用户需求、情报对象内容和情报任务组织的认知、解读和表达"
+      "your_word": "置信度",
+      "journal_word": "置信度",
+      "frequency_in_top_papers": 4
     },
     {
-      "your_word": "态势感知",
-      "journal_word": "态势感知",
-      "frequency_in_top_papers": 4,
-      "context_example": "态势感知是指提取环境中影响态势发展的要素，理解相关要素的内容及关联关系，并基于感知和理解结果预测未来发展趋势"
-    },
-    {
-      "your_word": "弱信号",
-      "journal_word": "弱信号",
-      "frequency_in_top_papers": 6,
-      "context_example": "科技创新弱信号作为未来科技前沿发展的线索，蕴含潜在的创新方向、科技趋势与市场机会"
-    },
-    {
-      "your_word": "技术预见",
-      "journal_word": "技术预见",
-      "frequency_in_top_papers": 3,
-      "context_example": "基于技术预见视角的弱信号识别"
-    },
-    {
-      "your_word": "情报思维",
-      "journal_word": "情报思维",
-      "frequency_in_top_papers": 2,
-      "context_example": "融合情报思维构建包含要素感知层、态势理解层、态势预测层和情报产品层的科技发展态势分析框架"
-    },
-    {
-      "your_word": "情报流程",
-      "journal_word": "情报流程",
-      "frequency_in_top_papers": 2,
-      "context_example": "融合三种驱动力量提出科技发展态势情报感知流程"
-    },
-    {
-      "your_word": "情报产品",
-      "journal_word": "情报产品",
-      "frequency_in_top_papers": 2,
-      "context_example": "情报产品层的科技发展态势分析框架"
+      "your_word": "审计",
+      "journal_word": "审计",
+      "frequency_in_top_papers": 1
     }
   ],
   "experiment_checklist": [
     {
-      "type": "案例分析",
-      "required": false,
-      "example_paper_id": "ed8f2a36_25"
-    },
-    {
-      "type": "文献综述",
-      "required": true,
-      "example_paper_id": "26644137_50"
-    },
-    {
-      "type": "框架构建",
-      "required": true,
-      "example_paper_id": "3b36f552_19"
-    },
-    {
       "type": "对比实验",
-      "required": false,
+      "required": true,
       "example_paper_id": "ed8f2a36_25"
     },
     {
       "type": "消融实验",
+      "required": true,
+      "example_paper_id": "b20bb55f_27"
+    },
+    {
+      "type": "案例分析",
+      "required": false,
+      "example_paper_id": "26644137_50"
+    },
+    {
+      "type": "用户研究",
       "required": false,
       "example_paper_id": "ed8f2a36_25"
     }
