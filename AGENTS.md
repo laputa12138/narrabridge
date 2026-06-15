@@ -192,39 +192,71 @@ The entire agent pipeline is built on deepagents. Here's how each feature is use
 | deepagents feature | How we use it | Where |
 |-------------------|---------------|-------|
 | `create_deep_agent()` | Create each of the 5 agents with custom tools + system prompt | `orchestrator.py:_create_agent()` |
+| `model` (pre-initialized `ChatOpenAI`) | Points to our LOCAL vLLM at `127.0.0.1:1878/v1`, NOT OpenAI's API | `orchestrator.py:_get_model()` |
 | `FilesystemBackend(virtual_mode=True)` | Each agent gets a sandboxed workspace under `outputs/{project}/{session}/{agent}/` | `orchestrator.py:_create_agent()` |
 | `system_prompt` | Loaded from `prompts/*.md` — defines agent personality and instructions | `orchestrator.py:_load_prompt()` |
-| `tools` parameter | Custom Python functions (`search_qingbao`, `read_paper_section`) | `orchestrator.py` (function definitions) |
+| `tools` parameter | Custom Python functions (`search_qingbao`, `read_paper_section`) — these query LOCAL OpenSearch at `127.0.0.1:9202` | `orchestrator.py` (function definitions) |
 | Built-in filesystem tools | Agents use `write_file` to persist outputs autonomously | deepagents default (no config) |
 | Context compression | Middleware auto-summarizes when 5+ papers fill context | deepagents default (no config) |
-| `subagents` parameter | Phase 2.8: pre-configure Agent 5 as a reviewer sub-agent of Agent 4 | `orchestrator.py` (Phase 2.8) |
-| `interrupt_on` | Phase 2.8: require human approval before writing final paper draft | `orchestrator.py` (Phase 2.8) |
 
 **Agent creation pattern (every agent follows this):**
 
 ```python
 from deepagents import create_deep_agent
 from deepagents.backends import FilesystemBackend
+from langchain_openai import ChatOpenAI
 
-agent = create_deep_agent(
-    model="openai:qwen-27b-reasoning",    # provider:model format
-    tools=[search_qingbao, read_paper_section],  # custom tools
-    system_prompt=open("prompts/project_reader.md").read(),
-    backend=FilesystemBackend(
-        root_dir="outputs/trust-eval/20260101/agent1/",
-        virtual_mode=True,  # sandboxed: agent can't escape this directory
-    ),
-    name="project_reader",
+# Pre-initialized model → points to our LOCAL vLLM (127.0.0.1:1878)
+# NOT OpenAI's API. deepagents accepts pre-initialized BaseChatModel instances.
+model = ChatOpenAI(
+    model="qwen-27b-reasoning",
+    base_url="http://127.0.0.1:1878/v1",
+    api_key="not-needed",
+    temperature=0.3,
+    max_tokens=4096,
 )
 
-# Invoke: deepagents uses LangGraph's invoke() with messages
+# Custom tools → query our LOCAL OpenSearch (127.0.0.1:9202)
+# These functions run on the host machine, not in the LLM.
+def search_qingbao(query: str, top_k: int = 5) -> str:
+    """Search LOCAL 情报学报 index. Returns paper titles + snippets."""
+    ...
+
+agent = create_deep_agent(
+    model=model,                            # ← Pre-initialized, points to local vLLM
+    tools=[search_qingbao, read_paper_section],  # ← Local OpenSearch queries
+    system_prompt=open("prompts/project_reader.md").read(),
+    backend=FilesystemBackend(
+        root_dir="outputs/session_001/agent1/",
+        virtual_mode=True,  # Sandboxed — agent can't escape this directory
+    ),
+    name="problem_mapper",
+)
+
+# deepagents uses LangGraph's invoke() — standard AI agent loop
 result = agent.invoke({
-    "messages": [{"role": "user", "content": "Analyze ~/trust-eval"}]
+    "messages": [{"role": "user", "content": "Map this project to intelligence studies"}]
 })
 
-# Extract response: last message in the messages array
+# Agent's response is in the last message
 response = result["messages"][-1].content
 ```
+
+**Data flow — how your local OpenSearch feeds the agent:**
+
+```
+Agent calls: search_qingbao("情报分析 可信度 评估")
+     ↓
+Python runs: opensearchpy → curl 127.0.0.1:9202/情报学报/_search
+     ↓
+Returns: top-5 papers from YOUR local 情报学报 index
+     ↓
+Agent reads: paper titles, snippets, scores
+     ↓
+Agent decides: "These papers discuss AI content quality control — this project fits"
+```
+
+**No external API calls. No web search. Everything stays local.**
 
 This pattern is implemented once in `_create_agent()` and reused for all 5 agents.
 

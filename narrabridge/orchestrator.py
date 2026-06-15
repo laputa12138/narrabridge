@@ -4,10 +4,9 @@ narrabridge/orchestrator.py — 5-agent pipeline powered by deepagents.
 Phase 2 core. Uses deepagents features:
   ▸ `create_deep_agent` — create isolated agents with bounded context
   ▸ `FilesystemBackend` — each agent gets its own sandboxed workspace
-  ▸ `subagents` — pre-configured delegation targets (Phase 2.8)
-  ▸ Built-in context compression middleware — auto-summarizes long threads
+  ▸ Built-in context compression — auto-summarizes long threads
   ▸ Built-in filesystem tools — agents can read/write outputs autonomously
-  ▸ `interrupt_on` — human-in-the-loop for quality gates (Phase 2.8)
+  ▸ Custom tools — agents query LOCAL OpenSearch (127.0.0.1:9202), no external API calls
 
 Pipeline:
   Agent 1 (Project Reader) → Agent 2 (Problem Mapper) → Agent 3 (Narrative Extractor)
@@ -15,8 +14,6 @@ Pipeline:
   Agent 4 (Paper Generator) ←──────────────────────────────────────┘
        ↓
   Agent 5 (Peer Reviewer)
-
-Each agent runs sequentially. Agent N receives Agent N-1's output as input.
 """
 
 import os
@@ -28,6 +25,7 @@ from typing import Optional, Any
 
 from deepagents import create_deep_agent
 from deepagents.backends import FilesystemBackend
+from langchain.chat_models import ChatOpenAI
 
 
 # ── Paths ──────────────────────────────────────────────────────────────────
@@ -102,6 +100,25 @@ def _load_prompt(filename: str) -> str:
     return (PROMPTS_DIR / filename).read_text(encoding="utf-8")
 
 
+def _get_model():
+    """Create a pre-initialized ChatOpenAI instance pointing to our local vLLM.
+
+    Why not use deepagents' "openai:model" string format?
+      → That format is for OpenAI's official API. Our vLLM runs on a custom
+        endpoint (127.0.0.1:1878/v1). deepagents accepts a pre-initialized
+        BaseChatModel directly — that's the correct way for custom endpoints.
+
+    deepagents will use this model for ALL agent LLM calls.
+    """
+    return ChatOpenAI(
+        model=LLM_MODEL,
+        base_url=LLM_BASE_URL,
+        api_key="not-needed",  # local vLLM doesn't require auth
+        temperature=0.3,
+        max_tokens=4096,
+    )
+
+
 def _create_agent(
     name: str,
     prompt_file: str,
@@ -111,30 +128,28 @@ def _create_agent(
     """Create a deepagents agent with sandboxed filesystem and tools.
 
     deepagents features in use:
+      - model: Pre-initialized ChatOpenAI → our local vLLM at 127.0.0.1:1878
       - FilesystemBackend(virtual_mode=True, root_dir=...) →
           Agent's file operations are sandboxed to output_dir.
           Built-in tools: `ls`, `read_file`, `write_file`, `edit_file`, `glob`, `grep`.
-      - system_prompt → Loaded from prompts/*.md. This defines agent personality.
+      - system_prompt → Loaded from prompts/*.md. Defines agent personality.
       - tools → Custom Python functions the agent can call via tool calling.
+          These tools query LOCAL OpenSearch (127.0.0.1:9202), not external APIs.
       - Context compression → Built-in middleware auto-summarizes when
-          conversation gets too long. No config needed.
+          conversation gets too long. No extra config needed.
 
     Args:
         name: Agent name (for logging)
         prompt_file: Filename in prompts/ (e.g., 'project_reader.md')
-        tools: List of callable functions
+        tools: List of callable functions (e.g., [search_qingbao, read_paper_section])
         output_dir: Sandbox root for this agent's files
     """
     output_dir.mkdir(parents=True, exist_ok=True)
 
     return create_deep_agent(
-        # Model in "provider:model" format per deepagents convention
-        model=f"openai:{LLM_MODEL}",
-        # Custom model kwargs for our self-hosted vLLM
-        # deepagents passes these through to langchain's init_chat_model
+        model=_get_model(),
         tools=tools,
         system_prompt=_load_prompt(prompt_file),
-        # Sandboxed filesystem: agent can only write inside output_dir
         backend=FilesystemBackend(
             root_dir=str(output_dir),
             virtual_mode=True,
