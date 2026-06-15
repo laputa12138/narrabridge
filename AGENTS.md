@@ -1,417 +1,238 @@
 # AGENTS.md — NarraBridge
 
-> **Read this first.** This file contains everything a coding agent needs to start
-> implementing NarraBridge. No external planning required.
+> **Read this first.** This file describes what has been BUILT and what remains.
+> See `PLAN.md` for the original design rationale.
 
 ---
 
-## 0. What is NarraBridge?
+## 0. Current Status
 
-A narrative translation engine that helps NLP/LLM practitioners write intelligence
-studies papers by **re-framing engineering artifacts as answers to discipline‑specific
-research questions**. Grounded in a domain knowledge base of 477 full‑text papers
-from *情报学报* (indexed in OpenSearch).
-
-**NOT a method improvement tool. NOT a generic writing assistant.** It translates
-engineering language into intelligence studies academic language, using real published
-papers as the translation reference.
+| Phase | Status | What exists |
+|:-----:|:------:|-------------|
+| ① Manual validation | ✅ Done | `validate_phase1.py` + `outputs/phase1_trust_eval.md` |
+| ② Agent pipeline | ✅ Done | `__init__.py` (460 lines, 3 pipelines) |
+| ③ Terminology dictionary | ✅ Done | `knowledge/terminology.yml` (extracted from 477 papers) |
+| ④ Web UI | ✅ Done | `ui/app.py` (Gradio, 3 tabs) |
+| ⑤ Refinement | 🔴 Current | Polish, bug fixes, edge cases |
 
 ---
 
-## 1. Development Environment
+## 1. Architecture (what was built)
 
-### 1.1 Python & Dependencies
+The assistant chose a **pragmatic hybrid architecture**:
+
+### Pipeline driver: Plain Python + LangChain
+
+The main pipeline (`__init__.py`) does NOT use deepagents' agent loop. Instead:
+
+1. **Python handles all I/O** — OpenSearch queries, file reads, JSON parsing
+2. **LLM handles reasoning** — via `run_structured_agent()` using `ChatOpenAI.with_structured_output()`
+3. **Data flows between steps as Python dicts**
+
+```
+translate_pipeline(project_path)
+  │
+  ├─[Step 1] extract_tech_profile()           ← Python (tools/project_reader.py)
+  │   └─ writes outputs/trust-eval/tech_profile.json
+  │
+  ├─[Step 2] text_search() × 5 queries        ← Python (tools/opensearch_search.py)
+  │   └─ run_structured_agent("problem_mapper") ← LLM
+  │   └─ writes problem_mapping.json
+  │
+  ├─[Step 3] get_paper_sections() × 10        ← Python (tools/paper_reader.py)
+  │   └─ run_structured_agent("narrative_extractor") ← LLM
+  │   └─ writes narrative_patterns.json
+  │
+  ├─[Step 4] run_structured_agent("paper_generator") ← LLM
+  │   └─ writes paper_draft.md
+  │
+  └─[Step 5] run_structured_agent("peer_reviewer") ← LLM
+      └─ writes review_report.md
+```
+
+### Agent definitions: deepagents wrappers
+
+Files in `agents/` wrap each agent with `create_deep_agent()`, but the main pipeline calls `run_structured_agent()` directly — NOT the deepagents agent loop.
+
+### Terminology dictionary
+
+`knowledge/terminology.yml` was already extracted from 477 papers. It's injected into prompts and used for terminology auditing.
+
+---
+
+## 2. Key Implementation Details
+
+### `run_structured_agent()` — the core LLM call pattern
+
+```python
+# __init__.py, line 29-95
+def run_structured_agent(prompt_name: str, schema_key: str, input_data: dict) -> dict:
+    # 1. Load system prompt from prompts/{prompt_name}.md
+    # 2. Inject terminology dictionary (up to 200 terms)
+    # 3. Load JSON schema from schemas/agent_io.json
+    # 4. Create ChatOpenAI with with_structured_output(method="json_mode")
+    # 5. Invoke with schema hint appended to system prompt
+    # 6. Return structured dict
+```
+
+**Why `json_mode` instead of `function_calling`?**
+The assistant found `json_mode` more stable with your local vLLM (port 1878).
+
+### Model configuration
+
+```python
+# config.py
+LLM_BASE_URL = "http://127.0.0.1:1878/v1"
+LLM_MODEL = "qwen-27b-reasoning"
+LLM_API_KEY = "sk-ym-...2025"
+```
+
+LiteLLM gateway at 1878 proxies to the vLLM server on Sichuan. The assistant switched to 1878 (from 8000 direct) because `with_structured_output` had hanging issues on the raw vLLM port.
+
+### OpenSearch queries
+
+```python
+# tools/opensearch_search.py — queries against field "content"
+def text_search(query: str, top_k: int = 5) -> list[dict]:
+    client.search(index="情报学报", body={
+        "query": {"match": {"content": query}},
+        "size": top_k,
+    })
+```
+
+**Critical fix made by assistant:** The original skeleton used `text` field but the actual OpenSearch index uses `content`.
+
+### Terminology injection
+
+```python
+# __init__.py, line 37-49
+term_dict_path = Path(__file__).parent / "knowledge" / "terminology.yml"
+if term_dict_path.exists():
+    terms = yaml.safe_load(f)
+    # Inject first 200 terms into system prompt
+```
+
+---
+
+## 3. Remaining Work (Phase ⑤ Refinement)
+
+### 3.1 Known issues to fix
+
+| Issue | Priority | Where |
+|-------|:--------:|-------|
+| `paper_reader.py` can't find some minerU files (ID mismatch) | 🔴 High | `tools/paper_reader.py` |
+| Agent 5 returns `None` for some fields when input is minimal | 🟡 Medium | `__init__.py:review_pipeline()` |
+| OpenSearch queries return 0 results for some terms | 🟡 Medium | `_construct_queries_from_profile()` |
+| Terminology dictionary could use more entries | 🟢 Low | `knowledge/terminology.yml` |
+| Context trimming logic (50 terms) might lose important terms | 🟢 Low | `_trim_narrative_template()` |
+
+### 3.2 Suggested improvements
+
+1. **Better paper reader** — Use regex to map paper titles → minerU filenames instead of relying on `paper_id` field
+2. **Query diversity** — `_construct_queries_from_profile()` currently uses hardcoded queries. Make them dynamically generated from the tech profile.
+3. **Error recovery** — If an agent step fails, save partial results and continue (currently pipeline stops)
+4. **Parallel agents** — Agents 1 and pre-search can run in parallel (currently sequential)
+5. **Output comparison** — After pipeline runs, compare outputs across sessions to track quality
+
+### 3.3 Testing checklist
+
+- [ ] Run `python -m narrabridge translate ~/trust-eval` — confirm all 5 steps complete
+- [ ] Run `python -m narrabridge entry "RAG, multi-agent, NLI"` — confirm meaningful results
+- [ ] Run `python -m narrabridge review outputs/trust-eval/paper_draft.md` — confirm review generated
+- [ ] Run `python tests/test_opensearch_search.py` — confirm all pass
+- [ ] Run `python tests/test_project_reader.py` — confirm all pass
+- [ ] Test with a second project (not trust-eval) to verify generality
+
+---
+
+## 4. How to continue development
+
+### For a new AI coding assistant
 
 ```bash
-# Already installed in the system Python
-pip3 install deepagents langchain-core opensearch-py gradio pyyaml 2>&1 | tail -3
+# 1. Understand the architecture
+cat AGENTS.md                           # This file
+cat PLAN.md                             # Original design
+cat __init__.py | head -100             # Core pipeline
+cat config.py                           # Configuration
+cat knowledge/terminology.yml | head -50  # Terminology dictionary
+
+# 2. Verify it still works
+python -m narrabridge translate ~/trust-eval
+
+# 3. Run tests
+python -m pytest tests/ -v
+
+# 4. Pick a task from §3.1 or §3.2
+
+# 5. Commit with Chinese message
+git add -A && git commit -m "fix: 描述你的修改"
 ```
 
-### 1.2 Required Environment Variables
+### Key constraints
 
-Already set in `~/.bashrc` / `~/.hermes/.env`. Verify before coding:
-
-```bash
-# OpenSearch
-OPENSEARCH_URL=http://127.0.0.1:9202
-QINGBAO_INDEX=情报学报
-
-# LLM (Sichuan server via LiteLLM gateway)
-LLM_BASE_URL=http://127.0.0.1:1878/v1
-LLM_MODEL=qwen-27b-reasoning
-LLM_API_KEY=not-needed
-```
-
-### 1.3 External Services
-
-| Service | Address | Status |
-|---------|---------|:------:|
-| OpenSearch 情报学报 | `127.0.0.1:9202` | ✅ Running |
-| LiteLLM gateway | `127.0.0.1:1878` | ✅ Running |
-| vLLM (Qwen3.6-35B-A3B) | behind LiteLLM | ✅ Running |
-
-Verify: `curl -s --noproxy '*' 'http://127.0.0.1:9202/' 2>&1 | python3 -c "import sys,json; print(json.load(sys.stdin)['version']['number'])"`
+- **DO NOT rewrite the pipeline architecture.** It works. Fix bugs, don't redesign.
+- **DO NOT change the LLM endpoint** (127.0.0.1:1878/v1). It was chosen for stability.
+- **DO NOT modify `schemas/agent_io.json`** without updating all agents that depend on it.
+- **All paths must be absolute** — the pipeline runs from any directory.
+- **Outputs go to `outputs/{project_name}/`** — never to `qingbao_search/`.
 
 ---
 
-## 2. Project Structure
+## 5. Data Flow Diagram
 
 ```
-narrabridge/
-├── AGENTS.md                ← ← ← YOU ARE HERE
-├── PLAN.md                  # Architecture reference (read for context)
-├── README.md                # Public-facing
-├── requirements.txt         # Python dependencies
-│
-├── narrabridge/
-│   └── orchestrator.py      ★ 5-agent pipeline with deepagents (Phase 2)
-│
-├── prompts/                 ★ System prompts for 5 agents (drafts exist, improve them)
-│   ├── project_reader.md
-│   ├── problem_mapper.md
-│   ├── narrative_extractor.md
-│   ├── paper_generator.md
-│   └── peer_reviewer.md
-│
-├── tools/                   ★ Custom tools for deepagents
-│   ├── opensearch_search.py # OpenSearch hybrid query (skeleton → full implementation)
-│   └── project_reader.py    # Codebase → tech profile extractor (skeleton → full)
-│
-├── schemas/
-│   └── agent_io.json        # Input/output schemas for all 5 agents
-│
-├── validate_phase1.py       # Phase 1 manual validation script
-│
-├── knowledge/               # Structured domain knowledge (Phase 3)
-├── ui/                      # Gradio web app (Phase 4)
-├── outputs/                 # Agent-generated artifacts
-└── tests/                   # Unit tests
+User runs: python -m narrabridge translate ~/trust-eval
+                  │
+                  ▼
+         __main__.py → translate_pipeline()
+                  │
+    ┌─────────────┼─────────────┐
+    │             │             │
+    ▼             ▼             ▼
+Python I/O    LLM calls     File writes
+    │             │             │
+    ├─extract_   ├─run_struct-  ├─tech_profile.json
+    │ tech_prof  │ ured_agent() ├─problem_mapping.json
+    │             │             ├─narrative_patterns.json
+    ├─text_      │             ├─paper_draft.md
+    │ search()   │             └─review_report.md
+    │             │
+    ├─get_paper_ │
+    │ sections() │
+    │             │
+    └─yaml.safe_ │
+      load()     │
+                 │
+         ┌───────┴───────┐
+         │               │
+    ChatOpenAI    prompts/*.md
+    (127.0.0.1:   schemas/agent_io.json
+     1878/v1)     knowledge/terminology.yml
+         │
+         ▼
+    vLLM Qwen-27B (Sichuan server)
 ```
+
+**No external APIs. Everything local.**
 
 ---
 
-## 3. Implementation Phases (EXECUTABLE ORDER)
-
-### Phase 1 — Manual Validation 🔴 CURRENT
-
-**Goal:** Prove core pipeline works before writing agent code.
-
-**Deliverable:** `validate_phase1.py` runs and produces a file `outputs/phase1_trust_eval.md`
-that the user agrees is "directionally correct."
-
-**Steps (execute in order):**
-
-1. Read `~/trust-eval/AGENTS.md` + `~/trust-eval/docs/TRUST-EVAL-研究方案-v3.md`
-   → extract a technical profile (what does the system do in engineering terms?)
-
-2. Construct 3-5 problem-semantic OpenSearch queries (NOT keyword-match!):
-   - "情报分析 可信度 评估 AI 生成 质量"
-   - "多智能体 情报 分析 验证"
-   - "人工智能 情报 质量控制 审计"
-   - Translate: "post-hoc verification" → "后验检验 质量评估"
-
-3. For each query, retrieve top-5 papers from OpenSearch
-
-4. For each paper, read the minerU output (`~/qingbao_search/mineru_output/{paper_id}.md`)
-   and extract: problem statement, method description, terminology used
-
-5. Feed all results + trust-eval tech profile to the LLM, ask:
-   - "trust-eval solves what intelligence studies problem?"
-   - "Which 3-5 papers are closest in problem framing?"
-   - "Write an introduction paragraph in 情报学报 style for trust-eval"
-   - "Create a terminology mapping: NLP terms → 情报学报 terms"
-
-6. Save output to `outputs/phase1_trust_eval.md`
-
-7. **STOP.** Show output to user. Do NOT proceed to Phase 2 until user confirms quality.
-
-**Key `validate_phase1.py` functions to implement:**
-```python
-def extract_tech_profile(project_path: str) -> dict
-def construct_queries(tech_profile: dict) -> list[str]
-def search_qingbao(query: str, top_k: int = 5) -> list[dict]
-def read_paper(paper_id: str) -> str  # from mineru_output/
-def llm_analyze(tech_profile, papers, questions) -> str
-```
-
-### Phase 2 — Agent Pipeline ⬜
-
-**Precondition:** Phase 1 validated by user.
-
-**Deliverable:** `python -m narrabridge translate ~/trust-eval` produces a complete paper draft.
-
-**Tasks:**
-
-**2.1 — Implement `tools/opensearch_search.py`**
-- Full OpenSearch client with hybrid search (BM25 + k-NN)
-- Error handling, timeout, retry
-- Tests in `tests/test_opensearch_search.py`
-
-**2.2 — Implement `tools/project_reader.py`**
-- Parse AGENTS.md, README.md, config/*.py, core/*.py
-- Extract structured tech profile per schemas/agent_io.json
-- Tests in `tests/test_project_reader.py`
-
-**2.3 — Agent 1: Project Reader**
-- Load prompt from `prompts/project_reader.md`
-- Use `create_deep_agent` + `project_reader.py` tool
-- Test on trust-eval
-
-**2.4 — Agent 2: Problem Mapper**
-- Load prompt from `prompts/problem_mapper.md`
-- Uses `opensearch_search.py` tool
-- Receives Agent 1 output as input
-- Test on trust-eval
-
-**2.5 — Agent 3: Narrative Extractor**
-- Load prompt from `prompts/narrative_extractor.md`
-- Uses `opensearch_search.py` to fetch full paper sections
-- Receives Agent 2 output as input
-
-**2.6 — Agent 4: Paper Generator**
-- Load prompt from `prompts/paper_generator.md`
-- Receives Agents 1+2+3 outputs as input
-- Generates: intro draft, related work, methods, experiment checklist
-
-**2.7 — Agent 5: Peer Reviewer**
-- Load prompt from `prompts/peer_reviewer.md`
-- Receives Agent 4 output as input
-- Generates review report
-
-**2.8 — Orchestrator**
-- Wire agents with deepagents sub-agent spawning
-- CLI entry point: `narrabridge/__init__.py`
-- See `narrabridge/orchestrator.py` for the reference implementation
-
----
-
-## 3.5. deepagents Architecture Usage
-
-The entire agent pipeline is built on deepagents. Here's how each feature is used:
-
-| deepagents feature | How we use it | Where |
-|-------------------|---------------|-------|
-| `create_deep_agent()` | Create each of the 5 agents with custom tools + system prompt | `orchestrator.py:_create_agent()` |
-| `model` (pre-initialized `ChatOpenAI`) | Points to our LOCAL vLLM at `127.0.0.1:1878/v1`, NOT OpenAI's API | `orchestrator.py:_get_model()` |
-| `FilesystemBackend(virtual_mode=True)` | Each agent gets a sandboxed workspace under `outputs/{project}/{session}/{agent}/` | `orchestrator.py:_create_agent()` |
-| `system_prompt` | Loaded from `prompts/*.md` — defines agent personality and instructions | `orchestrator.py:_load_prompt()` |
-| `tools` parameter | Custom Python functions (`search_qingbao`, `read_paper_section`) — these query LOCAL OpenSearch at `127.0.0.1:9202` | `orchestrator.py` (function definitions) |
-| Built-in filesystem tools | Agents use `write_file` to persist outputs autonomously | deepagents default (no config) |
-| Context compression | Middleware auto-summarizes when 5+ papers fill context | deepagents default (no config) |
-
-**Agent creation pattern (every agent follows this):**
-
-```python
-from deepagents import create_deep_agent
-from deepagents.backends import FilesystemBackend
-from langchain_openai import ChatOpenAI
-
-# Pre-initialized model → points to our LOCAL vLLM (127.0.0.1:1878)
-# NOT OpenAI's API. deepagents accepts pre-initialized BaseChatModel instances.
-model = ChatOpenAI(
-    model="qwen-27b-reasoning",
-    base_url="http://127.0.0.1:1878/v1",
-    api_key="not-needed",
-    temperature=0.3,
-    max_tokens=4096,
-)
-
-# Custom tools → query our LOCAL OpenSearch (127.0.0.1:9202)
-# These functions run on the host machine, not in the LLM.
-def search_qingbao(query: str, top_k: int = 5) -> str:
-    """Search LOCAL 情报学报 index. Returns paper titles + snippets."""
-    ...
-
-agent = create_deep_agent(
-    model=model,                            # ← Pre-initialized, points to local vLLM
-    tools=[search_qingbao, read_paper_section],  # ← Local OpenSearch queries
-    system_prompt=open("prompts/project_reader.md").read(),
-    backend=FilesystemBackend(
-        root_dir="outputs/session_001/agent1/",
-        virtual_mode=True,  # Sandboxed — agent can't escape this directory
-    ),
-    name="problem_mapper",
-)
-
-# deepagents uses LangGraph's invoke() — standard AI agent loop
-result = agent.invoke({
-    "messages": [{"role": "user", "content": "Map this project to intelligence studies"}]
-})
-
-# Agent's response is in the last message
-response = result["messages"][-1].content
-```
-
-**Data flow — how your local OpenSearch feeds the agent:**
-
-```
-Agent calls: search_qingbao("情报分析 可信度 评估")
-     ↓
-Python runs: opensearchpy → curl 127.0.0.1:9202/情报学报/_search
-     ↓
-Returns: top-5 papers from YOUR local 情报学报 index
-     ↓
-Agent reads: paper titles, snippets, scores
-     ↓
-Agent decides: "These papers discuss AI content quality control — this project fits"
-```
-
-**No external API calls. No web search. Everything stays local.**
-
-This pattern is implemented once in `_create_agent()` and reused for all 5 agents.
-
-### Phase 3 — Terminology Dictionary ⬜
-
-**Deliverable:** `knowledge/terminology.yml` (300+ entries)
-
-Extract from 477 minerU outputs:
-- High-frequency academic terms
-- NLP ↔ 情报学 term mappings
-- Common experiment patterns
-
-### Phase 4 — Web UI ⬜
-
-Gradio app in `ui/app.py` with three tabs matching the three scenarios.
-See `PLAN.md` §3 for scenario requirements.
-
-### Phase 5 — Refinement ⬜
-
-Iterate on trust-eval case study, tune prompts, test on 2-3 more projects.
-
----
-
-## 4. Data Contracts
-
-See `schemas/agent_io.json` for full JSON schemas. Key types:
-
-```python
-# Agent 1 → 2
-TechProfile = {
-    "tech_stack": list[str],
-    "core_innovation": str,
-    "experimental_setup": {"dataset": str, "size": int, "topic": str},
-    "modules": [{"name": str, "purpose": str}],
-}
-
-# Agent 2 → 3
-ProblemMapping = {
-    "problem_type": str,  # from literature_analysis.md taxonomy
-    "confidence": float,
-    "top_papers": [{"id": str, "title": str, "relevance_reason": str, "excerpt": str}],
-    "query_translations": [{"nlp_term": str, "qingbao_term": str}],
-}
-
-# Agent 3 → 4
-NarrativeTemplate = {
-    "intro_structure": [{"stage": str, "example_from_paper": str, "paper_id": str}],
-    "method_description_conventions": list[str],
-    "terminology_mapping": [{"your_word": str, "journal_word": str, "frequency": int}],
-    "experiment_checklist": [{"type": str, "required": bool, "example_paper_id": str}],
-}
-
-# Agent 4 output
-PaperDraft = {
-    "title_suggestions": list[str],
-    "introduction": str,
-    "related_work": str,
-    "methods": str,
-    "suggested_experiments": [{"name": str, "rationale": str, "paper_reference": str}],
-}
-
-# Agent 5 output
-ReviewReport = {
-    "terminology_issues": [{"your_word": str, "suggested": str, "paper_evidence": str}],
-    "structure_issues": [{"section": str, "issue": str, "peer_paper_comparison": str}],
-    "citation_gaps": [{"should_cite": str, "reason": str}],
-    "contribution_framing_issues": list[str],
-}
-```
-
----
-
-## 5. OpenSearch Quick Reference
-
-```python
-from opensearchpy import OpenSearch
-
-client = OpenSearch(
-    hosts=[{"host": "127.0.0.1", "port": 9202}],
-    use_ssl=False,
-    verify_certs=False,
-    timeout=30,
-)
-
-# BM25 text search
-result = client.search(
-    index="情报学报",
-    body={
-        "query": {"match": {"content": query_text}},
-        "size": 10,
-    }
-)
-
-# k-NN vector search (1024-dim, Qwen3-Embedding-0.6B)
-result = client.search(
-    index="情报学报",
-    body={
-        "query": {
-            "knn": {
-                "embedding": {
-                    "vector": embedding_vector,
-                    "k": 10,
-                }
-            }
-        }
-    }
-)
-```
-
-**⚠️ Caution:** All `curl`/`requests` to `127.0.0.1:9202` must use `--noproxy '*'` or
-`no_proxy=127.0.0.1` because mihomo intercepts localhost traffic.
-
----
-
-## 6. Coding Standards
-
-- **Language:** Python 3.10+ (same as system Python)
-- **Style:** 4-space indent, snake_case, single quotes
-- **LLM calls:** Use `langchain.chat_models.ChatOpenAI` with `base_url=http://127.0.0.1:1878/v1`
-- **Config:** No hardcoded values. Read from `os.environ` or `narrabridge/config.py`
-- **Outputs:** Write to `outputs/`, never to `qingbao_search/`
-- **Tests:** pytest, run with `python -m pytest tests/ -v`
-- **Commits:** Chinese commit messages preferred
-
----
-
-## 7. Decision Log
-
-| Decision | Rationale | Date |
-|----------|-----------|------|
-| deepagents over LangGraph raw | Sub-agent context isolation + filesystem + compression out of box | 2026-06-10 |
-| Local LLM over API | Cost (free GPU) + privacy | 2026-06-10 |
-| BM25 + k-NN hybrid | Keyword for exact match, vector for semantic | 2026-06-10 |
-| Separate from qingbao_search | Decouple data refinement from product development | 2026-06-10 |
-| Phase 1 no-agent validation | Don't build agent pipeline until core retrieval quality proven | 2026-06-10 |
-
----
-
-## 8. Getting Started (for a fresh coding agent)
-
-```bash
-# 1. Verify environment
-python3 -c "from deepagents import create_deep_agent; print('deepagents OK')"
-python3 -c "from opensearchpy import OpenSearch; print('opensearch OK')"
-curl -s --noproxy '*' 'http://127.0.0.1:9202/_cat/indices?v' | grep 情报学报
-
-# 2. Read context
-cat AGENTS.md          # This file
-cat PLAN.md            # Architecture
-cat schemas/agent_io.json  # Data contracts
-cat prompts/project_reader.md  # Start with Agent 1 prompt
-
-# 3. Start Phase 1
-python3 validate_phase1.py
-```
-
-**Your first commit should be:** running `validate_phase1.py` and showing the output.
-Do NOT jump to Phase 2 agent implementation until the user confirms Phase 1 output quality.
+## 6. Quick Reference
+
+| What | Where |
+|------|-------|
+| Main pipeline | `__init__.py:translate_pipeline()` |
+| Entry discovery | `__init__.py:entry_pipeline()` |
+| Peer review | `__init__.py:review_pipeline()` |
+| LLM call pattern | `__init__.py:run_structured_agent()` |
+| Model config | `config.py` |
+| OpenSearch search | `tools/opensearch_search.py:text_search()` |
+| Tech profile extractor | `tools/project_reader.py:extract_tech_profile()` |
+| Paper section reader | `tools/paper_reader.py:get_paper_sections()` |
+| Agent definitions | `agents/*.py` |
+| Prompts | `prompts/*.md` |
+| I/O schemas | `schemas/agent_io.json` |
+| Terminology | `knowledge/terminology.yml` |
+| Tests | `tests/` |
+| Outputs | `outputs/{project_name}/` |
