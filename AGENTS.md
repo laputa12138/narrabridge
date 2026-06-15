@@ -61,6 +61,10 @@ narrabridge/
 ├── AGENTS.md                ← ← ← YOU ARE HERE
 ├── PLAN.md                  # Architecture reference (read for context)
 ├── README.md                # Public-facing
+├── requirements.txt         # Python dependencies
+│
+├── narrabridge/
+│   └── orchestrator.py      ★ 5-agent pipeline with deepagents (Phase 2)
 │
 ├── prompts/                 ★ System prompts for 5 agents (drafts exist, improve them)
 │   ├── project_reader.md
@@ -177,6 +181,52 @@ def llm_analyze(tech_profile, papers, questions) -> str
 **2.8 — Orchestrator**
 - Wire agents with deepagents sub-agent spawning
 - CLI entry point: `narrabridge/__init__.py`
+- See `narrabridge/orchestrator.py` for the reference implementation
+
+---
+
+## 3.5. deepagents Architecture Usage
+
+The entire agent pipeline is built on deepagents. Here's how each feature is used:
+
+| deepagents feature | How we use it | Where |
+|-------------------|---------------|-------|
+| `create_deep_agent()` | Create each of the 5 agents with custom tools + system prompt | `orchestrator.py:_create_agent()` |
+| `FilesystemBackend(virtual_mode=True)` | Each agent gets a sandboxed workspace under `outputs/{project}/{session}/{agent}/` | `orchestrator.py:_create_agent()` |
+| `system_prompt` | Loaded from `prompts/*.md` — defines agent personality and instructions | `orchestrator.py:_load_prompt()` |
+| `tools` parameter | Custom Python functions (`search_qingbao`, `read_paper_section`) | `orchestrator.py` (function definitions) |
+| Built-in filesystem tools | Agents use `write_file` to persist outputs autonomously | deepagents default (no config) |
+| Context compression | Middleware auto-summarizes when 5+ papers fill context | deepagents default (no config) |
+| `subagents` parameter | Phase 2.8: pre-configure Agent 5 as a reviewer sub-agent of Agent 4 | `orchestrator.py` (Phase 2.8) |
+| `interrupt_on` | Phase 2.8: require human approval before writing final paper draft | `orchestrator.py` (Phase 2.8) |
+
+**Agent creation pattern (every agent follows this):**
+
+```python
+from deepagents import create_deep_agent
+from deepagents.backends import FilesystemBackend
+
+agent = create_deep_agent(
+    model="openai:qwen-27b-reasoning",    # provider:model format
+    tools=[search_qingbao, read_paper_section],  # custom tools
+    system_prompt=open("prompts/project_reader.md").read(),
+    backend=FilesystemBackend(
+        root_dir="outputs/trust-eval/20260101/agent1/",
+        virtual_mode=True,  # sandboxed: agent can't escape this directory
+    ),
+    name="project_reader",
+)
+
+# Invoke: deepagents uses LangGraph's invoke() with messages
+result = agent.invoke({
+    "messages": [{"role": "user", "content": "Analyze ~/trust-eval"}]
+})
+
+# Extract response: last message in the messages array
+response = result["messages"][-1].content
+```
+
+This pattern is implemented once in `_create_agent()` and reused for all 5 agents.
 
 ### Phase 3 — Terminology Dictionary ⬜
 

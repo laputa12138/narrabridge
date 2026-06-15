@@ -1,58 +1,56 @@
 {
   "problem_type": "AI生成内容的可信评估与质量控制",
-  "confidence": 0.85,
-  "alternative_types": [
-    "多智能体系统与协同分析",
-    "情报分析方法论"
-  ],
   "top_papers": [
     {
       "id": "ed8f2a36_25",
       "title": "科技创新弱信号早期感知方法探究与前瞻",
-      "relevance_reason": "该文专门讨论情报感知效果的评估与验证，包括统计分布检验、事后重复调查的偏差估计等方法，与TRUST-EVAL的后验验证机制高度对应。",
-      "excerpt": "情报感知的准确性验证方面，效果评估方法主要包括统计分布检验[68]、异常数值识别[69]和基于事后重复调查的偏差估计[70]。"
+      "relevance_reason": "该论文专门讨论情报感知效果的评估与验证方法，包括统计分布检验、事后重复调查的偏差估计等，与TRUST-EVAL的事后验证机制高度相关。",
+      "excerpt": "情报感知的准确性验证方面，效果评估方法主要包括统计分布检验、异常数值识别和基于事后重复调查的偏差估计。"
     },
     {
       "id": "b20bb55f_27",
       "title": "基于应用基础研究的新兴技术方向成熟度评估方法研究",
-      "relevance_reason": "该文提出评估结果可靠性验证方法，将三方评估结果与专家咨询相互印证，与TRUST-EVAL的独立审计层做后验验证的思路一致。",
+      "relevance_reason": "该论文提出评估结果可靠性验证方法，将评估结果与专家咨询相互印证，与TRUST-EVAL的独立审计层做后验验证的理念一致。",
       "excerpt": "开展评估结果可靠性验证，将上述三方评估结果与专家咨询相互印证，进一步验证研究主题+时序演化分析框架的有效性。"
     },
     {
-      "id": "26644137_50",
-      "title": "基于技术预见视角的弱信号识别研究综述",
-      "relevance_reason": "该文综述了弱信号识别结果的验证方法，包括专家验证法、文献验证法、发展趋势验证法等，与TRUST-EVAL的多维度验证（NLI、CSS、引用审计）形成方法论对照。",
-      "excerpt": "表6 基于技术预见视角的弱信号识别结果验证方法：专家验证法根据专家的知识经验来对识别结果进行评估；文献验证法从学术和实践来源中检索相关信息，对比当前识别出的弱信号是否已在先前的研究中讨论过或得到相关证据的证实。"
+      "id": "0aa59598_10",
+      "title": "科技创新弱信号早期感知方法探究与前瞻",
+      "relevance_reason": "该论文讨论感知效果评估阶段，包括对弱信号的语义解释、情境分析，以及预测结果的评估与验证，与TRUST-EVAL的语义推理验证机制相关。",
+      "excerpt": "预测与响应阶段的目标是对弱信号的灵敏感知和灵活应对，趋势预测环节需要系统梳理弱信号，构建预测模型，利用数据分析技术揭示其主要模式与未来趋势，从来源分析与原因分析两个维度评估与验证预测结果。"
     }
   ],
   "query_translations": [
     {
-      "nlp_term": "post-hoc verification, audit",
-      "qingbao_term": "后验检验, 可信度评估, 效果评估"
+      "nlp_terms": "post-hoc verification, audit",
+      "qingbao_query": "情报分析 可信度 评估 后验 验证",
+      "rationale": "生成后独立验证，情报学报上对应后验检验或可信度评估"
     },
     {
-      "nlp_term": "multi-agent, orchestration",
-      "qingbao_term": "多智能体协同, 人机协同, 协同分析"
+      "nlp_terms": "multi-agent, pipeline",
+      "qingbao_query": "多智能体 情报 分析 协同 生成",
+      "rationale": "多智能体协同流水线，对应情报分析协同机制"
     },
     {
-      "nlp_term": "RAG, retrieval, fact-checking",
-      "qingbao_term": "检索增强, 知识检索, 事实验证"
+      "nlp_terms": "RAG, retrieval, fact-checking",
+      "qingbao_query": "检索增强 情报 事实验证 知识检索",
+      "rationale": "检索和溯源，对应检索增强与事实审计"
     },
     {
-      "nlp_term": "NLI, entailment",
-      "qingbao_term": "语义推理, 语义蕴含, 文本推理"
+      "nlp_terms": "AI content quality, credibility",
+      "qingbao_query": "人工智能 生成 内容 质量 控制 可信",
+      "rationale": "AI生成内容的质量控制与信任治理"
     },
     {
-      "nlp_term": "fact verification",
-      "qingbao_term": "事实验证, 信息核实, 准确性验证"
+      "nlp_terms": "citation tracing, provenance",
+      "qingbao_query": "引用 溯源 情报 分析 信息 来源",
+      "rationale": "追踪到出处，对应文献引用溯源和可信源分析"
     },
     {
-      "nlp_term": "citation tracking, provenance",
-      "qingbao_term": "引用溯源, 文献溯源, 信息溯源"
-    },
-    {
-      "nlp_term": "AI content quality, credibility",
-      "qingbao_term": "生成内容质量, 可信度, 质量控制"
+      "nlp_terms": "NLI, entailment, semantic",
+      "qingbao_query": "语义 推理 蕴含 关系 验证 情报",
+      "rationale": "语义推理关系匹配，对应语义蕴含验证"
     }
-  ]
+  ],
+  "confidence": 0.85
 }

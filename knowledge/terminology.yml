@@ -1,0 +1,969 @@
+- nlp_term: embedding layer
+  qingbao_term: 表征层/嵌入层
+  rationale: 学术论文中更偏向用表征层描述向量映射
+- nlp_term: loss function
+  qingbao_term: 损失函数/损失度量
+  rationale: 学报中度量更显正式
+- nlp_term: gradient descent
+  qingbao_term: 梯度下降/参数梯度优化
+  rationale: 强调优化属性
+- nlp_term: neural network
+  qingbao_term: 神经网络
+  rationale: 标准学术词汇
+- nlp_term: transformer architecture
+  qingbao_term: Transformer 架构/变换器模型架构
+  rationale: 学报中文习惯
+- nlp_term: pre-trained model
+  qingbao_term: 预训练模型
+  rationale: 学术公认词汇
+- nlp_term: fine-tuning process
+  qingbao_term: 微调过程/模型适配过程
+  rationale: 突出对特定任务的适配
+- nlp_term: hyperparameter tuning
+  qingbao_term: 超参数调优/参数校准
+  rationale: 参数空间寻优与校准
+- nlp_term: optimizer
+  qingbao_term: 优化器/参数优化算法
+  rationale: 算法属性
+- nlp_term: tokenization
+  qingbao_term: 分词处理/文本切分
+  rationale: 传统文本挖掘术语
+- nlp_term: corpus
+  qingbao_term: 语料库/文献数据集
+  rationale: 文献计量学常用词汇
+- nlp_term: word embedding
+  qingbao_term: 词向量表征/词嵌入
+  rationale: 表征概念
+- nlp_term: attention mechanism
+  qingbao_term: 注意力机制
+  rationale: 标准术语
+- nlp_term: sequence-to-sequence
+  qingbao_term: 序列到序列模型
+  rationale: 网络模型
+- nlp_term: unsupervised learning
+  qingbao_term: 无监督学习
+  rationale: 算法概念
+- nlp_term: supervised learning
+  qingbao_term: 有监督 learning/有监督学习
+  rationale: 算法概念
+- nlp_term: semi-supervised learning
+  qingbao_term: 半监督学习
+  rationale: 算法概念
+- nlp_term: reinforcement learning
+  qingbao_term: 强化学习/强化反馈机制
+  rationale: 机制概念
+- nlp_term: clustering algorithm
+  qingbao_term: 聚类算法/关联聚类方法
+  rationale: 聚类分析
+- nlp_term: dimension reduction
+  qingbao_term: 降维处理/特征降维
+  rationale: 信息科学常用词
+- nlp_term: PCA
+  qingbao_term: 主成分分析
+  rationale: 文献计量学经典降维法
+- nlp_term: t-SNE
+  qingbao_term: t-SNE 降维/高维数据可视化表征
+  rationale: 特征展示
+- nlp_term: cosine similarity
+  qingbao_term: 余弦相似度/夹角余弦相似性
+  rationale: 相似度量
+- nlp_term: Euclidean distance
+  qingbao_term: 欧氏距离
+  rationale: 距离度量
+- nlp_term: classification model
+  qingbao_term: 分类模型/主题分类算法
+  rationale: 分类主题
+- nlp_term: binary classification
+  qingbao_term: 二分类/双重类别划分
+  rationale: 类别概念
+- nlp_term: multi-class classification
+  qingbao_term: 多分类/多维类别划分
+  rationale: 类别概念
+- nlp_term: confusion matrix
+  qingbao_term: 混淆矩阵
+  rationale: 评价常用表述
+- nlp_term: overfitting
+  qingbao_term: 过拟合/模型泛化能力衰退
+  rationale: 泛化特征
+- nlp_term: underfitting
+  qingbao_term: 欠拟合
+  rationale: 拟合特征
+- nlp_term: cross-validation
+  qingbao_term: 交叉验证/交叉检验
+  rationale: 验证方案
+- nlp_term: regularization
+  qingbao_term: 正则化约束
+  rationale: 数学约束
+- nlp_term: activation function
+  qingbao_term: 激活函数
+  rationale: 标准术语
+- nlp_term: hidden layer
+  qingbao_term: 隐藏层/隐变量表示层
+  rationale: 表示特征
+- nlp_term: dropout rate
+  qingbao_term: 随机失活率/丢弃率
+  rationale: 训练参数
+- nlp_term: batch size
+  qingbao_term: 批次大小/样本批尺寸
+  rationale: 样本配置
+- nlp_term: epoch
+  qingbao_term: 训练轮次/迭代轮数
+  rationale: 迭代特征
+- nlp_term: learning rate
+  qingbao_term: 学习率/步长寻优系数
+  rationale: 优化寻优
+- nlp_term: BERT
+  qingbao_term: BERT 预训练语言模型
+  rationale: 模型说明
+- nlp_term: GPT
+  qingbao_term: 生成式预训练 Transformer 模型
+  rationale: 模型说明
+- nlp_term: data preprocessing
+  qingbao_term: 数据预处理/文献清洗与去噪
+  rationale: 文本清洗
+- nlp_term: outliers
+  qingbao_term: 异常值/噪点数据
+  rationale: 数据属性
+- nlp_term: feature extraction
+  qingbao_term: 特征提取/技术特征抽取
+  rationale: 特征表达
+- nlp_term: feature selection
+  qingbao_term: 特征选择/关键变量筛选
+  rationale: 变量筛选
+- nlp_term: cross-entropy
+  qingbao_term: 交叉熵/信息熵损耗
+  rationale: 熵度量
+- nlp_term: soft-max
+  qingbao_term: 归一化指数函数
+  rationale: 标准翻译
+- nlp_term: encoder-decoder
+  qingbao_term: 编码-解码架构/双向变换表征架构
+  rationale: 架构设计
+- nlp_term: generative model
+  qingbao_term: 生成式模型/生成模型
+  rationale: 分类
+- nlp_term: discriminative model
+  qingbao_term: 判别式模型
+  rationale: 分类
+- nlp_term: transfer learning
+  qingbao_term: 迁移学习/跨领域知识迁移
+  rationale: 迁移特征
+- nlp_term: zero-shot
+  qingbao_term: 零样本/零样本冷启动
+  rationale: 冷启动验证
+- nlp_term: few-shot
+  qingbao_term: 少样本/少样本提示学习
+  rationale: 提示学习
+- nlp_term: prompt template
+  qingbao_term: 提示词模板/引导语框架
+  rationale: 人机交互设计
+- nlp_term: large language model
+  qingbao_term: 大语言模型/大规模预训练语言模型
+  rationale: 标准简称
+- nlp_term: reinforcement learning from human feedback
+  qingbao_term: 人类反馈强化学习/基于人工对齐的强化学习
+  rationale: 标准翻译
+- nlp_term: text generation
+  qingbao_term: 文本生成/自然语言生成
+  rationale: 生成任务
+- nlp_term: entity recognition
+  qingbao_term: 命名实体识别/情报要素抽取
+  rationale: 信息抽取
+- nlp_term: relation extraction
+  qingbao_term: 关系抽取/关联关系识别
+  rationale: 关联抽取
+- nlp_term: sentiment analysis
+  qingbao_term: 情感分析/情感倾向度量
+  rationale: 情感分类
+- nlp_term: topic modeling
+  qingbao_term: 主题模型/潜在主题演化分析
+  rationale: 文献演化
+- nlp_term: LDA modeling
+  qingbao_term: 潜在狄利克雷分配模型/LDA主题模型
+  rationale: 经典模型
+- nlp_term: document clustering
+  qingbao_term: 文献聚类/文本关联聚类
+  rationale: 聚类分析
+- nlp_term: sentence representation
+  qingbao_term: 句子向量表征/句向量表示
+  rationale: 表征
+- nlp_term: vector search
+  qingbao_term: 向量检索/语义空间检索
+  rationale: 信息检索
+- nlp_term: k-nearest neighbors
+  qingbao_term: k近邻/最近邻节点度量
+  rationale: 检索度量
+- nlp_term: precision-recall curve
+  qingbao_term: 精确率-召回率曲线/P-R曲线
+  rationale: 度量曲线
+- nlp_term: mean average precision
+  qingbao_term: 平均精确率均值/mAP指标
+  rationale: 信息检索度量
+- nlp_term: normalized discounted cumulative gain
+  qingbao_term: 归一化折损累计增益/NDCG指标
+  rationale: 推荐检索评价
+- nlp_term: ranking score
+  qingbao_term: 排序得分/相关度权重
+  rationale: 排序特征
+- nlp_term: query expansion
+  qingbao_term: 查询扩展/检索词语义扩展
+  rationale: 扩展检索
+- nlp_term: inverted index
+  qingbao_term: 倒排索引
+  rationale: 信息检索底层
+- nlp_term: vector space model
+  qingbao_term: 向量空间模型/VSM空间表示
+  rationale: 信息检索模型
+- nlp_term: tf-idf weights
+  qingbao_term: TF-IDF 权重/词频-逆文档频率权重
+  rationale: 权重计算
+- nlp_term: information retrieval
+  qingbao_term: 信息检索/知识检索与匹配
+  rationale: 经典学科
+- nlp_term: text classification
+  qingbao_term: 文本分类/内容类别判定
+  rationale: 文本任务
+- nlp_term: knowledge extraction
+  qingbao_term: 知识抽取/情报要素提取
+  rationale: 知识服务
+- nlp_term: dependency parsing
+  qingbao_term: 依存句法分析/句法关联路径识别
+  rationale: 语义句法
+- nlp_term: part-of-speech tagging
+  qingbao_term: 词性标注
+  rationale: 文本分析
+- nlp_term: named entity
+  qingbao_term: 命名实体/情报实体
+  rationale: 信息提取
+- nlp_term: coreference resolution
+  qingbao_term: 指代消解/共指关系识别
+  rationale: 指代识别
+- nlp_term: machine translation
+  qingbao_term: 机器翻译/跨语言情报转译
+  rationale: 转译特征
+- nlp_term: text summarization
+  qingbao_term: 文本摘要/内容摘要提炼
+  rationale: 提炼任务
+- nlp_term: question answering
+  qingbao_term: 问答系统/智能问答知识服务
+  rationale: 知识服务
+- nlp_term: chatbot
+  qingbao_term: 对话机器人/人机交互对话代理
+  rationale: 对话交互
+- nlp_term: vector database storage
+  qingbao_term: 向量数据库存储/高维向量空间存储
+  rationale: 数据治理
+- nlp_term: similarity search
+  qingbao_term: 相似度计算/语义相似性度量
+  rationale: 语义计算
+- nlp_term: dot product similarity
+  qingbao_term: 点积相似度
+  rationale: 相似计算
+- nlp_term: semantic chunking
+  qingbao_term: 语义切片/文本块划分
+  rationale: 分块策略
+- nlp_term: text chunk
+  qingbao_term: 文本片段/文献块
+  rationale: 片段概念
+- nlp_term: overlapping window
+  qingbao_term: 重叠滑窗/滑窗重叠策略
+  rationale: 文本划分
+- nlp_term: dense vector
+  qingbao_term: 稠密向量/低维稠密特征表示
+  rationale: 特征表示
+- nlp_term: sparse vector
+  qingbao_term: 稀疏向量/高维稀疏特征表示
+  rationale: 特征表示
+- nlp_term: cross-encoder
+  qingbao_term: 交叉编码器
+  rationale: 精排模型
+- nlp_term: bi-encoder
+  qingbao_term: 双塔编码器
+  rationale: 检索模型
+- nlp_term: RAG evaluation
+  qingbao_term: 检索增强质量评估/RAG管道检验
+  rationale: 评估阶段
+- nlp_term: RAG triad
+  qingbao_term: RAG三元评估指标
+  rationale: 质量评估
+- nlp_term: context relevance
+  qingbao_term: 上下文相关性/检索背景关联度
+  rationale: 检索质量
+- nlp_term: groundedness
+  qingbao_term: 忠实度/可信源支撑率
+  rationale: 内容质量
+- nlp_term: answer relevance
+  qingbao_term: 回答相关度/生成响应贴合度
+  rationale: 生成质量
+- nlp_term: system pipeline
+  qingbao_term: 系统管线/协同生成机制
+  rationale: 强调协同而非工程
+- nlp_term: backend server
+  qingbao_term: 后端服务/数据服务模块
+  rationale: 数据支持
+- nlp_term: frontend interface
+  qingbao_term: 前端界面/人机交互界面
+  rationale: 用户接口
+- nlp_term: web application
+  qingbao_term: Web 应用/系统平台
+  rationale: 工程名词替换
+- nlp_term: python script
+  qingbao_term: Python 脚本/分析程序
+  rationale: 工程名词替换
+- nlp_term: command line execution
+  qingbao_term: 命令行执行/控制台指令运行
+  rationale: 工程名词替换
+- nlp_term: JSON file
+  qingbao_term: JSON 配置文件/结构化配置文件
+  rationale: 工程名词替换
+- nlp_term: yaml config
+  qingbao_term: YAML 配置文件/层次化配置文件
+  rationale: 工程名词替换
+- nlp_term: markdown format
+  qingbao_term: Markdown 格式/结构化标记格式
+  rationale: 工程名词替换
+- nlp_term: git push command
+  qingbao_term: 代码仓库提交与推送
+  rationale: 工程名词替换
+- nlp_term: code modification
+  qingbao_term: 代码重构/模块逻辑调整
+  rationale: 工程名词替换
+- nlp_term: debug trace
+  qingbao_term: 调试追踪/运行路径审计
+  rationale: 审计特征
+- nlp_term: runtime exception
+  qingbao_term: 运行期异常/程序异常终止
+  rationale: 工程名词替换
+- nlp_term: log outputs
+  qingbao_term: 系统运行日志
+  rationale: 日志
+- nlp_term: database schema
+  qingbao_term: 数据库模式/数据结构契约
+  rationale: 契约
+- nlp_term: relational database
+  qingbao_term: 关系型数据库
+  rationale: 数据存储
+- nlp_term: SQL injection
+  qingbao_term: SQL 注入攻击/数据库安全漏洞
+  rationale: 信息安全
+- nlp_term: security scanner
+  qingbao_term: 安全审计扫描器/代码漏洞检测工具
+  rationale: 信息安全
+- nlp_term: xss vulnerability
+  qingbao_term: 跨站脚本漏洞/XSS漏洞
+  rationale: 信息安全
+- nlp_term: authentication key
+  qingbao_term: 鉴权密钥/访问令牌
+  rationale: 密钥鉴权
+- nlp_term: api connection
+  qingbao_term: API 连接/接口调用
+  rationale: 网络交互
+- nlp_term: network proxy server
+  qingbao_term: 网络代理服务器/网络中转代理
+  rationale: 网络环境
+- nlp_term: environment variables
+  qingbao_term: 系统环境变量/运行期变量配置
+  rationale: 环境配置
+- nlp_term: conda virtual environment
+  qingbao_term: Conda 虚拟环境/Python 虚拟沙盒环境
+  rationale: 运行配置
+- nlp_term: conda env create
+  qingbao_term: 创建 conda 虚拟沙盒环境
+  rationale: 运行配置
+- nlp_term: requirements txt file
+  qingbao_term: 依赖配置文件/第三方包依赖清单
+  rationale: 依赖配置
+- nlp_term: dependency mapping
+  qingbao_term: 依赖关系映射/组件依赖拓扑
+  rationale: 拓扑分析
+- nlp_term: open source repository
+  qingbao_term: 开源代码仓库/开源学术库
+  rationale: 开源资源
+- nlp_term: software license
+  qingbao_term: 开源协议
+  rationale: 许可协议
+- nlp_term: system deployment
+  qingbao_term: 系统部署/平台上线与托管
+  rationale: 系统工程
+- nlp_term: unit testing code
+  qingbao_term: 单元测试/模块测试用例
+  rationale: 验证
+- nlp_term: integration test pipeline
+  qingbao_term: 集成测试管线/系统联动集成检验
+  rationale: 系统验证
+- nlp_term: pytest framework
+  qingbao_term: pytest 单元测试框架
+  rationale: 测试工具
+- nlp_term: test execution time
+  qingbao_term: 测试用例耗时
+  rationale: 耗时
+- nlp_term: log parser
+  qingbao_term: 日志解析器
+  rationale: 文本解析
+- nlp_term: error handling
+  qingbao_term: 异常处理逻辑/错误恢复机制
+  rationale: 系统鲁棒性
+- nlp_term: infinite loop
+  qingbao_term: 死循环/逻辑死锁
+  rationale: 异常状态
+- nlp_term: deadlock
+  qingbao_term: 死锁/资源竞争死锁
+  rationale: 异常状态
+- nlp_term: memory leakage
+  qingbao_term: 内存泄露/资源开销异常
+  rationale: 系统开销
+- nlp_term: cpu usage
+  qingbao_term: CPU占用率/处理器算力消耗
+  rationale: 硬件度量
+- nlp_term: gpu memory usage
+  qingbao_term: 显存占用/显存算力消耗
+  rationale: 硬件度量
+- nlp_term: concurrency limit
+  qingbao_term: 并发限制/吞吐极限约束
+  rationale: 系统吞吐
+- nlp_term: high concurrency
+  qingbao_term: 高并发/高吞吐访问机制
+  rationale: 系统吞吐
+- nlp_term: multithreading
+  qingbao_term: 多线程并发/线程级并行
+  rationale: 并行计算
+- nlp_term: multiprocessing
+  qingbao_term: 多进程并发/进程级并行
+  rationale: 并行计算
+- nlp_term: parallel execution
+  qingbao_term: 并行计算/并行处理
+  rationale: 并行计算
+- nlp_term: asynchronous tasks
+  qingbao_term: 异步计算任务/异步处理任务
+  rationale: 并行计算
+- nlp_term: non-blocking I/O
+  qingbao_term: 非阻塞式 I/O
+  rationale: 系统吞吐
+- nlp_term: socket connection
+  qingbao_term: 套接字连接/网络底层连接
+  rationale: 底层网络
+- nlp_term: read timeout
+  qingbao_term: 读取超时
+  rationale: 异常状态
+- nlp_term: api endpoint
+  qingbao_term: API 接口端点/数据接口端点
+  rationale: 接口
+- nlp_term: request payload
+  qingbao_term: 请求体数据/输入数据体
+  rationale: 数据交互
+- nlp_term: response body
+  qingbao_term: 响应体数据/输出数据体
+  rationale: 数据交互
+- nlp_term: http headers
+  qingbao_term: HTTP 报头配置
+  rationale: 底层网络
+- nlp_term: status code 200
+  qingbao_term: 请求成功响应状态码
+  rationale: 底层网络
+- nlp_term: authorization token
+  qingbao_term: 授权令牌/用户访问令牌
+  rationale: 密钥鉴权
+- nlp_term: gradio application
+  qingbao_term: Gradio 图形化交互应用/Gradio平台
+  rationale: 界面工具
+- nlp_term: web interface rendering
+  qingbao_term: 前端界面渲染/图形化交互界面绘制
+  rationale: 界面开发
+- nlp_term: interactive text box
+  qingbao_term: 交互式文本输入框/文本输入组件
+  rationale: 界面开发
+- nlp_term: download attachment button
+  qingbao_term: 附件下载组件/数据导出按钮
+  rationale: 界面开发
+- nlp_term: real time log printing
+  qingbao_term: 实时日志流式显示
+  rationale: 界面开发
+- nlp_term: system log dashboard
+  qingbao_term: 系统日志监控看板
+  rationale: 监控分析
+- nlp_term: web server port
+  qingbao_term: 服务监听端口/Web服务端口
+  rationale: 网络配置
+- nlp_term: port conflict
+  qingbao_term: 端口占用冲突
+  rationale: 异常状态
+- nlp_term: local time timestamp
+  qingbao_term: 本地时钟时间戳
+  rationale: 时间戳
+- nlp_term: utc time format
+  qingbao_term: UTC 世界标准时间格式
+  rationale: 网络协议
+- nlp_term: timezone mapping
+  qingbao_term: 时区对齐
+  rationale: 时间
+- nlp_term: server restart notice
+  qingbao_term: 服务器重启通告
+  rationale: 系统运行
+- nlp_term: background subprocess
+  qingbao_term: 后台子进程
+  rationale: 并行计算
+- nlp_term: tmux session dashboard
+  qingbao_term: Tmux 会话终端/tmux 后台控制台
+  rationale: 系统管理
+- nlp_term: tmux window navigation
+  qingbao_term: tmux 窗口导航
+  rationale: 系统管理
+- nlp_term: shell command prompt
+  qingbao_term: 控制台指令提示符/Shell指令入口
+  rationale: 系统管理
+- nlp_term: bash script invocation
+  qingbao_term: Bash脚本调用/Shell脚本执行
+  rationale: 系统管理
+- nlp_term: git push origin main
+  qingbao_term: 将代码提交至远端主分支
+  rationale: 代码版本管理
+- nlp_term: local commits
+  qingbao_term: 本地提交记录/本地修订版本
+  rationale: 代码版本管理
+- nlp_term: git status tracking
+  qingbao_term: Git工作区状态跟踪
+  rationale: 代码版本管理
+- nlp_term: git log revisions
+  qingbao_term: Git修订日志审计
+  rationale: 代码版本管理
+- nlp_term: untracked modifications
+  qingbao_term: 未跟踪的文件修改
+  rationale: 代码版本管理
+- nlp_term: staged changes
+  qingbao_term: 已暂存的修订项
+  rationale: 代码版本管理
+- nlp_term: commit message guidelines
+  qingbao_term: 版本提交日志规范
+  rationale: 规范约定
+- nlp_term: code review feedback
+  qingbao_term: 代码评审意见反馈/代码规范性审查
+  rationale: 审查
+- nlp_term: peer coding companion
+  qingbao_term: 结对编程伙伴/智能协同编程代理
+  rationale: 人工智能协同
+- nlp_term: agentic AI model
+  qingbao_term: 智能体大模型/自主智能体
+  rationale: 自主智能
+- nlp_term: google deepmind team
+  qingbao_term: 谷歌 DeepMind 团队
+  rationale: 开发团队
+- nlp_term: advanced agentic coding
+  qingbao_term: 前沿智能体自动编程
+  rationale: 前沿技术
+- nlp_term: query intent
+  qingbao_term: 检索意图/查询语义倾向
+  rationale: 信息检索研究中常用意图表达来规避工程的query一词
+- nlp_term: user session
+  qingbao_term: 用户检索会话/交互周期
+  rationale: 文献计量与信息检索中常用会话周期来描述用户持续检索过程
+- nlp_term: text snippet
+  qingbao_term: 文献片段/文本微块
+  rationale: 情报分析中为精准对齐常用片段描述
+- nlp_term: embedding matrix
+  qingbao_term: 表征矩阵
+  rationale: 数学化特征矩阵
+- nlp_term: vector alignment
+  qingbao_term: 向量表征对齐/语义映射对齐
+  rationale: 用对齐关系描述特征匹配
+- nlp_term: linear regression
+  qingbao_term: 线性回归分析
+  rationale: 标准统计学词汇
+- nlp_term: gradient boosting
+  qingbao_term: 梯度提升迭代决策树/集成梯度提升
+  rationale: 学报中常用的集成学习
+- nlp_term: random forest
+  qingbao_term: 随机森林模型/集成决策树方法
+  rationale: 经典机器学习
+- nlp_term: support vector machine
+  qingbao_term: 支持向量机/空间超平面划分模型
+  rationale: 经典模型
+- nlp_term: decision tree
+  qingbao_term: 决策树分析法
+  rationale: 经典决策
+- nlp_term: naive Bayes
+  qingbao_term: 朴素贝叶斯分类/概率先验分类器
+  rationale: 经典先验
+- nlp_term: hidden Markov model
+  qingbao_term: 隐马尔可夫模型/状态隐转移模型
+  rationale: 经典状态分析
+- nlp_term: neural layer
+  qingbao_term: 神经元连接层/隐含表征层
+  rationale: 神经网络词汇
+- nlp_term: forward propagation
+  qingbao_term: 前向信息传播/前向运算
+  rationale: 参数传播
+- nlp_term: back propagation
+  qingbao_term: 反向参数优化传播/反向误差传递
+  rationale: 误差传递
+- nlp_term: loss gradient
+  qingbao_term: 损失函数梯度/偏导度量
+  rationale: 寻优
+- nlp_term: weight matrix
+  qingbao_term: 权重关联矩阵
+  rationale: 网络拓扑
+- nlp_term: bias vector
+  qingbao_term: 偏置项向量
+  rationale: 网络拓扑
+- nlp_term: standard deviation
+  qingbao_term: 标准差/离散度量
+  rationale: 数据统计
+- nlp_term: mean squared error
+  qingbao_term: 均方误差/二次损耗均值
+  rationale: 模型误差评估
+- nlp_term: mean absolute error
+  qingbao_term: 平均绝对误差
+  rationale: 模型误差评估
+- nlp_term: R-squared score
+  qingbao_term: 拟合优度判定系数/R2评价值
+  rationale: 回归评估
+- nlp_term: exploratory analysis
+  qingbao_term: 探索性数据分析/探索性情报审计
+  rationale: 情报学经典流程
+- nlp_term: empirical validation
+  qingbao_term: 实证检验/经验性实证
+  rationale: 强化学报的实证属性
+- nlp_term: ablation testing
+  qingbao_term: 消融对照实验/消融性控制变量分析
+  rationale: 描述消融实验
+- nlp_term: comparative evaluation
+  qingbao_term: 对比分析与可行性检验/对比性基准评测
+  rationale: 对比实验
+- nlp_term: baseline model
+  qingbao_term: 基准对照模型/基准算法
+  rationale: 对比对象
+- nlp_term: data imbalance
+  qingbao_term: 数据分布非均衡性/样本倾斜
+  rationale: 样本特征描述
+- nlp_term: synthetic data
+  qingbao_term: 合成样本/模拟情报数据
+  rationale: 非真实数据描述
+- nlp_term: real-world scenario
+  qingbao_term: 真实情报场景/现实业务应用场景
+  rationale: 强调场景属性
+- nlp_term: cross-domain search
+  qingbao_term: 跨领域知识挖掘与匹配/跨域检索
+  rationale: 知识发现常用词
+- nlp_term: cold start problem
+  qingbao_term: 冷启动瓶颈/系统初始化稀疏性问题
+  rationale: 推荐与检索常用词
+- nlp_term: user behavior analysis
+  qingbao_term: 用户行为特征审计/用户行为模式识别
+  rationale: 行为科学常用词
+- nlp_term: log file dataset
+  qingbao_term: 系统交互日志集/交互轨迹数据集
+  rationale: 行为日志描述
+- nlp_term: temporal evolution
+  qingbao_term: 时间维度演化分析/时序演变特征
+  rationale: 文献计量学经典描述
+- nlp_term: knowledge dissemination
+  qingbao_term: 知识传播机制/知识流动路径
+  rationale: 情报学核心研究问题
+- nlp_term: information leakage
+  qingbao_term: 信息泄露安全漏洞/信息安全流失
+  rationale: 安全情报常用词
+- nlp_term: data governance
+  qingbao_term: 数据治理体系/信息资源治理
+  rationale: 图情学科核心政策方向
+- nlp_term: metadata tagging
+  qingbao_term: 元数据标引/特征要素属性标注
+  rationale: 标引
+- nlp_term: ontology mapping
+  qingbao_term: 本体关联映射/语义本体对齐
+  rationale: 本体论图情词汇
+- nlp_term: semantic interoperability
+  qingbao_term: 语义互操作性/跨系统语义兼容
+  rationale: 标准图情术语
+- nlp_term: knowledge organization
+  qingbao_term: 知识组织体系
+  rationale: 经典图情二级学科
+- nlp_term: information literacy
+  qingbao_term: 信息素养/信息查检能力
+  rationale: 经典图情研究
+- nlp_term: citation analysis
+  qingbao_term: 引文分析与计量/学术引用计量
+  rationale: 文献计量学科
+- nlp_term: bibliometric study
+  qingbao_term: 文献计量学实证分析
+  rationale: 经典计量
+- nlp_term: co-citation network
+  qingbao_term: 同被引网络/共引关系拓扑
+  rationale: 文献计量分析
+- nlp_term: co-occurrence analysis
+  qingbao_term: 共现分析/要素共现计量
+  rationale: 文献计量分析
+- nlp_term: author cooperation
+  qingbao_term: 合著网络/学者协同网络
+  rationale: 学者合作分析
+- nlp_term: academic impact
+  qingbao_term: 学术影响力评价/学术传播广度
+  rationale: 计量评估
+- nlp_term: journal citation reports
+  qingbao_term: 期刊引证分析报告
+  rationale: 引证指标
+- nlp_term: h-index ranking
+  qingbao_term: H指数计量/学者学术产出深度度量
+  rationale: 学术评价
+- nlp_term: impact factor
+  qingbao_term: 影响因子指标/引证贡献系数
+  rationale: 期刊评估
+- nlp_term: information entropy
+  qingbao_term: 信息熵值度量
+  rationale: 熵计算
+- nlp_term: probability distribution
+  qingbao_term: 概率分布特征/随机密度分布
+  rationale: 数理统计
+- nlp_term: data visualization
+  qingbao_term: 数据可视化表征/多维图谱表征
+  rationale: 信息可视化
+- nlp_term: dynamic graph
+  qingbao_term: 动态关联图谱/时序拓扑网络
+  rationale: 网络拓扑
+- nlp_term: link prediction
+  qingbao_term: 关系链接预测/潜在关联预测
+  rationale: 社交网络分析
+- nlp_term: node classification
+  qingbao_term: 网络节点属性判别/节点角色分类
+  rationale: 网络拓扑分析
+- nlp_term: community detection
+  qingbao_term: 网络社区发现/关联社群聚类
+  rationale: 网络社群分析
+- nlp_term: social network graph
+  qingbao_term: 社会网络分析图谱/学者交互网络
+  rationale: 经典方法
+- nlp_term: web search engine
+  qingbao_term: 网络检索系统/网络搜索引擎
+  rationale: 检索领域
+- nlp_term: crawler framework
+  qingbao_term: 数据采集程序/网络文献爬取工具
+  rationale: 工程名词替换
+- nlp_term: user query log
+  qingbao_term: 用户检索轨迹日志/检索意图数据集
+  rationale: 行为计量
+- nlp_term: recommendation engine
+  qingbao_term: 个性化知识服务推送机制/推荐系统
+  rationale: 服务机制说明
+- nlp_term: collaborative filtering
+  qingbao_term: 协同过滤推荐机制/关联群组偏好计算
+  rationale: 算法特征描述
+- nlp_term: content-based method
+  qingbao_term: 基于内容关联的匹配方法
+  rationale: 检索推荐
+- nlp_term: hybrid recommendation
+  qingbao_term: 混合式知识推荐机制
+  rationale: 检索推荐
+- nlp_term: user preference matrix
+  qingbao_term: 用户兴趣偏好度量矩阵
+  rationale: 用户画像
+- nlp_term: latent factor model
+  qingbao_term: 潜在因子关联映射模型/隐因子模型
+  rationale: 算法模型
+- nlp_term: matrix factorization
+  qingbao_term: 矩阵分解技术/空间特征降维分解
+  rationale: 算法
+- nlp_term: deep learning framework
+  qingbao_term: 深度学习算法模型/深层神经网络框架
+  rationale: 网络框架
+- nlp_term: convolutional network
+  qingbao_term: 卷积神经网络模型
+  rationale: 图像或序列分析
+- nlp_term: recurrent network
+  qingbao_term: 循环神经网络模型
+  rationale: 时序分析
+- nlp_term: long short-term memory
+  qingbao_term: 长短期记忆神经网络模型
+  rationale: 时序分析
+- nlp_term: gated recurrent unit
+  qingbao_term: 门控循环单元神经网络模型
+  rationale: 时序分析
+- nlp_term: attention weight
+  qingbao_term: 注意力分配权重/语义注意力系数
+  rationale: 权重系数
+- nlp_term: self-attention
+  qingbao_term: 自注意力分配机制
+  rationale: 标准术语
+- nlp_term: multi-head attention
+  qingbao_term: 多头注意力融合机制
+  rationale: 标准术语
+- nlp_term: positional encoding
+  qingbao_term: 位置关联编码/时序位置表征
+  rationale: 特征编码
+- nlp_term: sequence labeling
+  qingbao_term: 序列标注与要素识别/序列标注
+  rationale: 文本分析
+- nlp_term: named entity recognition
+  qingbao_term: 命名实体识别/情报要素抽取
+  rationale: 经典任务
+- nlp_term: coreference network
+  qingbao_term: 共指关系图谱
+  rationale: 知识组织
+- nlp_term: text similarity score
+  qingbao_term: 文本语义相似度/文本内容贴合系数
+  rationale: 语义测度
+- nlp_term: vector quantization
+  qingbao_term: 向量量化编码/离散特征映射
+  rationale: 特征量化
+- nlp_term: dimensionality reduction
+  qingbao_term: 特征空间降维
+  rationale: 信息科学常用词
+- nlp_term: text partition
+  qingbao_term: 文本聚类划分/主题板块切分
+  rationale: 分类分析
+- nlp_term: topic extraction
+  qingbao_term: 主题提取/情报主题发现
+  rationale: 主题分析
+- nlp_term: topic distribution
+  qingbao_term: 主题概率分布/文献主题倾向
+  rationale: 主题分析
+- nlp_term: semantic matching
+  qingbao_term: 语义相似性匹配/语义关联映射
+  rationale: 检索映射
+- nlp_term: fine-tuned parameters
+  qingbao_term: 模型校准参数/适配训练参数
+  rationale: 调优
+- nlp_term: parameter initialization
+  qingbao_term: 参数空间初始化
+  rationale: 优化基础
+- nlp_term: learning algorithm
+  qingbao_term: 参数迭代学习算法
+  rationale: 寻优
+- nlp_term: cost reduction
+  qingbao_term: 资源开销优化/算力成本缩减
+  rationale: 系统性能
+- nlp_term: throughput capacity
+  qingbao_term: 系统吞吐能力/高并发负载承载力
+  rationale: 吞吐特征
+- nlp_term: response time latency
+  qingbao_term: 系统响应时延/访问时延表现
+  rationale: 时延表现
+- nlp_term: information retrieval query
+  qingbao_term: 信息检索提问式/检索式表达式
+  rationale: 图情经典概念
+- nlp_term: search performance
+  qingbao_term: 检索效能表现/检索效率评估
+  rationale: 检索分析
+- nlp_term: semantic expansion
+  qingbao_term: 语义关联扩展/检索提问扩展
+  rationale: 信息检索
+- nlp_term: relevance feedback
+  qingbao_term: 相关性反馈机制
+  rationale: 标准图情概念
+- nlp_term: pseudo-relevance feedback
+  qingbao_term: 伪相关性反馈机制
+  rationale: 标准图情概念
+- nlp_term: language model smoothing
+  qingbao_term: 语言模型平滑技术/平滑算法
+  rationale: 文本统计
+- nlp_term: dirichlet smoothing
+  qingbao_term: 狄利克雷平滑参数校准
+  rationale: 文本统计
+- nlp_term: linear interpolation
+  qingbao_term: 线性插值融合技术/线性插值平滑
+  rationale: 算法数学
+- nlp_term: evaluation dataset
+  qingbao_term: 评测基准数据集/实证检验样本集
+  rationale: 数据集
+- nlp_term: system benchmark
+  qingbao_term: 系统基准评测/系统比对测试
+  rationale: 系统评测
+- nlp_term: test sample set
+  qingbao_term: 测试样本序列/检验测试集
+  rationale: 样本
+- nlp_term: gold standard validation
+  qingbao_term: 黄金标准实证校验/金标准检验
+  rationale: 实证描述
+- nlp_term: annotator consensus
+  qingbao_term: 人工标注一致性测度
+  rationale: 标注评估
+- nlp_term: kappa coefficient
+  qingbao_term: Kappa一致性检验系数
+  rationale: 标注评估
+- nlp_term: inter-rater reliability
+  qingbao_term: 评判者信度一致性度量
+  rationale: 标注评估
+- nlp_term: user satisfaction survey
+  qingbao_term: 用户满意度实证调查
+  rationale: 图情经典实证
+- nlp_term: likert scale survey
+  qingbao_term: 李克特量表度量法
+  rationale: 图情经典实证
+- nlp_term: questionnaire research
+  qingbao_term: 问卷调查研究法
+  rationale: 图情经典实证
+- nlp_term: semi-structured interview
+  qingbao_term: 半结构化访谈研究
+  rationale: 质性研究方法
+- nlp_term: qualitative analysis
+  qingbao_term: 质性研究与内容分析
+  rationale: 经典方法
+- nlp_term: quantitative analysis
+  qingbao_term: 定量计量与统计分析
+  rationale: 经典方法
+- nlp_term: content analysis
+  qingbao_term: 内容分析法/文本语义内容审计
+  rationale: 经典图情研究方法
+- nlp_term: discourse analysis
+  qingbao_term: 话语分析与叙事结构审计
+  rationale: 质性研究方法
+- nlp_term: statistical validation
+  qingbao_term: 统计显著性检验/数理统计验证
+  rationale: 显著性
+- nlp_term: t-test significance
+  qingbao_term: t检验显著性水平
+  rationale: 数理统计
+- nlp_term: anova testing
+  qingbao_term: 方差分析显著性检验
+  rationale: 数理统计
+- nlp_term: chi-square test
+  qingbao_term: 卡方检验拟合度评估
+  rationale: 数理统计
+- nlp_term: correlation analysis
+  qingbao_term: 关联相关性分析/特征相关度量
+  rationale: 计量分析
+- nlp_term: regression coefficient
+  qingbao_term: 回归系数测度/贡献弹性系数
+  rationale: 计量分析
+- nlp_term: p-value threshold
+  qingbao_term: P值显著性阈值
+  rationale: 数理统计
+- nlp_term: confidence interval
+  qingbao_term: 置信区间范围度量
+  rationale: 数理统计
+- nlp_term: user feedback tracking
+  qingbao_term: 用户反馈审计机制
+  rationale: 行为科学
+- nlp_term: search intent log
+  qingbao_term: 检索意图日志流
+  rationale: 行为计量
+- nlp_term: information retrieval metric
+  qingbao_term: 信息检索效果评估指标
+  rationale: 检索评估
+- nlp_term: citation context
+  qingbao_term: 引文语境分析/引文情感倾向分析
+  rationale: 文献计量
+- nlp_term: co-citation cluster
+  qingbao_term: 同被引用聚类群组/文献同引族群
+  rationale: 文献计量
+- nlp_term: co-word map
+  qingbao_term: 共词分析图谱/关键词共现图谱
+  rationale: 文献计量
+- nlp_term: bibliographic coupling
+  qingbao_term: 文献耦合分析/引文耦合度量
+  rationale: 文献计量
+- nlp_term: scholar database profile
+  qingbao_term: 学者画像表征/学者学术轨迹画像
+  rationale: 计量描述
+- nlp_term: patent citation graph
+  qingbao_term: 专利引用拓扑网络/专利共引特征
+  rationale: 图情二级学科
+- nlp_term: technology tracking
+  qingbao_term: 技术主题演化追踪
+  rationale: 技术情报分析
+- nlp_term: competitive intelligence
+  qingbao_term: 竞争情报分析与对手审计
+  rationale: 竞争情报分支
+- nlp_term: knowledge mapping dashboard
+  qingbao_term: 科学知识图谱监测看板/知识图谱
+  rationale: 信息可视化
+- nlp_term: citation velocity
+  qingbao_term: 引文增长速率表现/文献引证时序特征
+  rationale: 文献计量

@@ -1,5 +1,6 @@
 import os
 import json
+import yaml
 from pathlib import Path
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage
@@ -13,13 +14,39 @@ OUTPUTS_DIR = Path(__file__).parent / "outputs"
 OUTPUTS_DIR.mkdir(parents=True, exist_ok=True)
 
 
+def _trim_narrative_template(template: dict, max_terms: int = 50) -> dict:
+    """
+    精简传入大模型的术语对照表，防止 Context 过长和大模型生成超长 JSON 时卡死/超时。
+    """
+    import copy
+    trimmed = copy.deepcopy(template)
+    if "terminology_mapping" in trimmed and isinstance(trimmed["terminology_mapping"], list):
+        trimmed["terminology_mapping"] = trimmed["terminology_mapping"][:max_terms]
+    return trimmed
+
+
+
 def run_structured_agent(prompt_name: str, schema_key: str, input_data: dict) -> dict:
     """
     运行一个结构化的大模型代理节点（基于原生 LangChain 直连 vLLM，彻底防止网络挂起）。
     """
-    # 1. 读取系统提示词
+    # 1. 读取系统提示词并尝试加载术语对照表
     prompt_path = Path(__file__).parent / "prompts" / f"{prompt_name}.md"
     system_prompt = prompt_path.read_text(encoding="utf-8")
+    
+    term_dict_path = Path(__file__).parent / "knowledge" / "terminology.yml"
+    if term_dict_path.exists():
+        try:
+            with open(term_dict_path, "r", encoding="utf-8") as f:
+                terms = yaml.safe_load(f)
+            if terms:
+                # 注入前 200 个，以防 prompt 过长超出 context 限制
+                term_text = "\n\n## 行业术语及学术句式规范对照字典\n在阅读、重构、翻译与评审论文时，请遵循以下规范术语和学术表达映射：\n"
+                for t in terms[:200]:
+                    term_text += f"- `{t.get('nlp_term')}` -> `{t.get('qingbao_term')}` ({t.get('rationale', '')})\n"
+                system_prompt += term_text
+        except Exception as e:
+            print(f"⚠️ 注入术语词典失败: {e}")
 
     # 2. 读取输出 JSON Schema 并进行顶层顶级包裹
     schema_path = Path(__file__).parent / "schemas" / "agent_io.json"
@@ -43,13 +70,26 @@ def run_structured_agent(prompt_name: str, schema_key: str, input_data: dict) ->
         max_tokens=4096,
         timeout=180  # 3分钟超时防护
     )
-    
-    # 使用 LangChain 原生的 with_structured_output 约束大模型返回 JSON
-    structured_llm = llm.with_structured_output(wrapped_schema)
-    
+    # 使用 LangChain 原生的 with_structured_output 约束大模型返回 JSON (采用 json_mode 比 function_calling 在 vLLM 下更稳定)
+    structured_llm = llm.with_structured_output(wrapped_schema, method="json_mode")
+
     # 4. 发起调用并返回强类型约束下的结构化数据字典
+    # 提取 properties 信息以显式强化 JSON 字段约束，确保在 json_mode 下字段契约完全对齐
+    schema_hint = f"\n\n## 【输出 JSON 结构规范要求】\n你必须确保返回的 JSON 对象中包含以下指定的键（不要有任何遗漏），且键名和结构必须与契约完全一致，不可擅自修改或拼错键名：\n"
+    for k, v in raw_schema.items():
+        desc = v.get("description", "")
+        t_type = v.get("type", "string")
+        schema_hint += f"- 键名 `{k}`: (数据类型: {t_type}) {desc}\n"
+        if t_type == "array" and "items" in v:
+            items_v = v["items"]
+            if items_v.get("type") == "object":
+                schema_hint += "  该数组中每个 JSON 对象的属性包括：\n"
+                for sub_k, sub_v in items_v.get("properties", {}).items():
+                    schema_hint += f"    * `{sub_k}`: {sub_v.get('description', '')}\n"
+    
+    # 5. 发起调用并返回强类型约束下的结构化数据字典
     res = structured_llm.invoke([
-        SystemMessage(content=system_prompt),
+        SystemMessage(content=system_prompt + schema_hint + "\n\n请严格返回一个符合输出要求的 JSON 对象，绝对不要包含任何 Markdown 格式的包裹（如 ```json），也不要返回多余的说明文字。"),
         HumanMessage(content=f"输入数据如下：\n{json.dumps(input_data, ensure_ascii=False)}")
     ])
     return res
@@ -131,6 +171,28 @@ def translate_pipeline(project_path: str):
     }
     narrative_template = run_structured_agent("narrative_extractor", "Agent3_NarrativeExtractor", input_extractor)
     
+    # 物理融合术语对照表，强化术语库的深度和完整度
+    term_dict_path = Path(__file__).parent / "knowledge" / "terminology.yml"
+    if term_dict_path.exists():
+        try:
+            with open(term_dict_path, "r", encoding="utf-8") as f:
+                terms_yml = yaml.safe_load(f)
+            if terms_yml:
+                if "terminology_mapping" not in narrative_template or not isinstance(narrative_template["terminology_mapping"], list):
+                    narrative_template["terminology_mapping"] = []
+                existing_words = {t.get("your_word", "").lower().strip() for t in narrative_template["terminology_mapping"] if isinstance(t, dict)}
+                for t in terms_yml:
+                    nlp_w = t.get("nlp_term", "")
+                    if nlp_w and nlp_w.lower().strip() not in existing_words:
+                        narrative_template["terminology_mapping"].append({
+                            "your_word": nlp_w,
+                            "journal_word": t.get("qingbao_term", ""),
+                            "frequency_in_top_papers": 3,
+                            "context_example": f"情报学报规范对照: {t.get('rationale', '')}"
+                        })
+        except Exception as e:
+            print(f"⚠️ 物理合并术语对照表失败: {e}")
+            
     narrative_path = proj_output_dir / "narrative_patterns.json"
     narrative_path.write_text(json.dumps(narrative_template, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"✅ 叙事模式提取完成，已保存至: {narrative_path.relative_to(Path.cwd())}")
@@ -140,7 +202,7 @@ def translate_pipeline(project_path: str):
     input_gen = {
         "tech_profile": tech_profile,
         "problem_mapping": problem_mapping,
-        "narrative_template": narrative_template
+        "narrative_template": _trim_narrative_template(narrative_template, max_terms=50)
     }
     paper_draft = run_structured_agent("paper_generator", "Agent4_PaperGenerator", input_gen)
     
@@ -153,7 +215,7 @@ def translate_pipeline(project_path: str):
     print("\n[Step 5/5] 正在运行 Peer Reviewer 生成学术评审报告...")
     input_rev = {
         "paper_draft": paper_draft,
-        "narrative_template": narrative_template
+        "narrative_template": _trim_narrative_template(narrative_template, max_terms=50)
     }
     review_report = run_structured_agent("peer_reviewer", "Agent5_PeerReviewer", input_rev)
     
@@ -164,6 +226,7 @@ def translate_pipeline(project_path: str):
     print(f"\n============================================================")
     print(f"🎉 翻译管道运行成功！全部产物位于 outputs/{project_name}/ 目录下")
     print(f"============================================================")
+    return project_name
 
 
 def entry_pipeline(query: str):
@@ -209,6 +272,7 @@ def entry_pipeline(query: str):
     for term in output.get("query_translations", []):
         print(f"- `{term.get('nlp_term')}` 对应情报学专用词 `\"{term.get('qingbao_term')}\"`")
     print("="*50)
+    return output
 
 
 def review_pipeline(draft_path: str):
@@ -244,7 +308,7 @@ def review_pipeline(draft_path: str):
 
     input_rev = {
         "paper_draft": dummy_draft,
-        "narrative_template": narrative_template
+        "narrative_template": _trim_narrative_template(narrative_template, max_terms=50)
     }
     report = run_structured_agent("peer_reviewer", "Agent5_PeerReviewer", input_rev)
     
@@ -257,6 +321,7 @@ def review_pipeline(draft_path: str):
     print(f"📝 核心意见摘要:\n{report.get('summary', '无')}")
     print(f"✅ 详细的评审报告已保存至: {out_path}")
     print("="*50)
+    return out_path
 
 
 def _construct_queries_from_profile(profile: dict) -> list[dict]:

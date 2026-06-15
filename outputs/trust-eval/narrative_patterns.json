@@ -1,84 +1,1965 @@
 {
-  "intro_structure": [
-    {
-      "stage": "情报环境变化 / 新技术涌现",
-      "description": "描述当前情报环境的变化或新技术的出现，引出研究背景",
-      "example_from_paper": "科技创新弱信号作为未来科技前沿发展的线索，蕴含潜在的创新方向、科技趋势与市场机会。"
-    },
-    {
-      "stage": "现有方法的局限性",
-      "description": "指出当前研究或方法存在的不足、空白或问题",
-      "example_from_paper": "目前，科技预见方法存在挖掘覆盖度低、模型与方法泛化能力弱、可解释度低与主观认知局限等问题。"
-    },
-    {
-      "stage": "本文的研究问题",
-      "description": "明确本文要解决的具体研究问题或目标",
-      "example_from_paper": "本文系统梳理潜在可行的科技创新弱信号感知模型与方法，以期支撑面向未来技术前瞻预见的智慧情报分析。"
-    },
-    {
-      "stage": "本文的贡献",
-      "description": "概述本文的主要贡献或创新点",
-      "example_from_paper": "本文提出了将基于应用基础研究的新兴技术方向成熟度等级调整为三个阶段的假设，据此构建了'研究主题+时序演化'的情报分析框架。"
-    }
-  ],
-  "method_description_conventions": [
-    "使用'本文'作为主语，避免第一人称",
-    "采用'首先...其次...最后...'的递进结构描述研究步骤",
-    "在描述方法时，先说明方法名称，再解释其适用场景和优势",
-    "强调方法的'可重复性'和'客观性'，这是情报学报论文的重要特征"
-  ],
+  "narrative_patterns": {
+    "introduction_patterns": [
+      {
+        "stage": "情报环境变化/新技术涌现",
+        "description": "从宏观科技发展趋势切入，描述新兴技术或前沿领域的发展态势",
+        "example": "科技创新弱信号作为未来科技前沿发展的线索，蕴含潜在的创新方向、科技趋势与市场机会。"
+      },
+      {
+        "stage": "现有方法的局限性",
+        "description": "指出当前研究或方法存在的不足，为本文研究提供动机",
+        "example": "目前，科技预见方法存在挖掘覆盖度低、模型与方法泛化能力弱、可解释度低与主观认知局限等问题。"
+      },
+      {
+        "stage": "本文的研究问题",
+        "description": "明确本文要解决的核心问题或研究目标",
+        "example": "本文系统梳理潜在可行的科技创新弱信号感知模型与方法，以期支撑面向未来技术前瞻预见的智慧情报分析。"
+      },
+      {
+        "stage": "本文的贡献",
+        "description": "概述本文的主要贡献，通常使用"
+      }
+    ]
+  },
   "terminology_mapping": [
     {
-      "your_word": "验证",
-      "journal_word": "检验",
-      "frequency_in_top_papers": 8
+      "your_word": "embedding layer",
+      "journal_word": "表征层/嵌入层",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 学术论文中更偏向用表征层描述向量映射"
     },
     {
-      "your_word": "可信度",
-      "journal_word": "可靠性",
-      "frequency_in_top_papers": 6
+      "your_word": "loss function",
+      "journal_word": "损失函数/损失度量",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 学报中度量更显正式"
     },
     {
-      "your_word": "多 Agent",
-      "journal_word": "多智能体",
-      "frequency_in_top_papers": 3
+      "your_word": "gradient descent",
+      "journal_word": "梯度下降/参数梯度优化",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 强调优化属性"
     },
     {
-      "your_word": "多主体",
-      "journal_word": "多主体",
-      "frequency_in_top_papers": 2
+      "your_word": "neural network",
+      "journal_word": "神经网络",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 标准学术词汇"
     },
     {
-      "your_word": "置信度",
-      "journal_word": "置信度",
-      "frequency_in_top_papers": 4
+      "your_word": "transformer architecture",
+      "journal_word": "Transformer 架构/变换器模型架构",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 学报中文习惯"
     },
     {
-      "your_word": "审计",
-      "journal_word": "审计",
-      "frequency_in_top_papers": 1
-    }
-  ],
-  "experiment_checklist": [
-    {
-      "type": "对比实验",
-      "required": true,
-      "example_paper_id": "ed8f2a36_25"
+      "your_word": "pre-trained model",
+      "journal_word": "预训练模型",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 学术公认词汇"
     },
     {
-      "type": "消融实验",
-      "required": true,
-      "example_paper_id": "b20bb55f_27"
+      "your_word": "fine-tuning process",
+      "journal_word": "微调过程/模型适配过程",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 突出对特定任务的适配"
     },
     {
-      "type": "案例分析",
-      "required": false,
-      "example_paper_id": "26644137_50"
+      "your_word": "hyperparameter tuning",
+      "journal_word": "超参数调优/参数校准",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 参数空间寻优与校准"
     },
     {
-      "type": "用户研究",
-      "required": false,
-      "example_paper_id": "ed8f2a36_25"
+      "your_word": "optimizer",
+      "journal_word": "优化器/参数优化算法",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 算法属性"
+    },
+    {
+      "your_word": "tokenization",
+      "journal_word": "分词处理/文本切分",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 传统文本挖掘术语"
+    },
+    {
+      "your_word": "corpus",
+      "journal_word": "语料库/文献数据集",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 文献计量学常用词汇"
+    },
+    {
+      "your_word": "word embedding",
+      "journal_word": "词向量表征/词嵌入",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 表征概念"
+    },
+    {
+      "your_word": "attention mechanism",
+      "journal_word": "注意力机制",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 标准术语"
+    },
+    {
+      "your_word": "sequence-to-sequence",
+      "journal_word": "序列到序列模型",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 网络模型"
+    },
+    {
+      "your_word": "unsupervised learning",
+      "journal_word": "无监督学习",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 算法概念"
+    },
+    {
+      "your_word": "supervised learning",
+      "journal_word": "有监督 learning/有监督学习",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 算法概念"
+    },
+    {
+      "your_word": "semi-supervised learning",
+      "journal_word": "半监督学习",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 算法概念"
+    },
+    {
+      "your_word": "reinforcement learning",
+      "journal_word": "强化学习/强化反馈机制",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 机制概念"
+    },
+    {
+      "your_word": "clustering algorithm",
+      "journal_word": "聚类算法/关联聚类方法",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 聚类分析"
+    },
+    {
+      "your_word": "dimension reduction",
+      "journal_word": "降维处理/特征降维",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 信息科学常用词"
+    },
+    {
+      "your_word": "PCA",
+      "journal_word": "主成分分析",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 文献计量学经典降维法"
+    },
+    {
+      "your_word": "t-SNE",
+      "journal_word": "t-SNE 降维/高维数据可视化表征",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 特征展示"
+    },
+    {
+      "your_word": "cosine similarity",
+      "journal_word": "余弦相似度/夹角余弦相似性",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 相似度量"
+    },
+    {
+      "your_word": "Euclidean distance",
+      "journal_word": "欧氏距离",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 距离度量"
+    },
+    {
+      "your_word": "classification model",
+      "journal_word": "分类模型/主题分类算法",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 分类主题"
+    },
+    {
+      "your_word": "binary classification",
+      "journal_word": "二分类/双重类别划分",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 类别概念"
+    },
+    {
+      "your_word": "multi-class classification",
+      "journal_word": "多分类/多维类别划分",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 类别概念"
+    },
+    {
+      "your_word": "confusion matrix",
+      "journal_word": "混淆矩阵",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 评价常用表述"
+    },
+    {
+      "your_word": "overfitting",
+      "journal_word": "过拟合/模型泛化能力衰退",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 泛化特征"
+    },
+    {
+      "your_word": "underfitting",
+      "journal_word": "欠拟合",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 拟合特征"
+    },
+    {
+      "your_word": "cross-validation",
+      "journal_word": "交叉验证/交叉检验",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 验证方案"
+    },
+    {
+      "your_word": "regularization",
+      "journal_word": "正则化约束",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 数学约束"
+    },
+    {
+      "your_word": "activation function",
+      "journal_word": "激活函数",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 标准术语"
+    },
+    {
+      "your_word": "hidden layer",
+      "journal_word": "隐藏层/隐变量表示层",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 表示特征"
+    },
+    {
+      "your_word": "dropout rate",
+      "journal_word": "随机失活率/丢弃率",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 训练参数"
+    },
+    {
+      "your_word": "batch size",
+      "journal_word": "批次大小/样本批尺寸",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 样本配置"
+    },
+    {
+      "your_word": "epoch",
+      "journal_word": "训练轮次/迭代轮数",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 迭代特征"
+    },
+    {
+      "your_word": "learning rate",
+      "journal_word": "学习率/步长寻优系数",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 优化寻优"
+    },
+    {
+      "your_word": "BERT",
+      "journal_word": "BERT 预训练语言模型",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 模型说明"
+    },
+    {
+      "your_word": "GPT",
+      "journal_word": "生成式预训练 Transformer 模型",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 模型说明"
+    },
+    {
+      "your_word": "data preprocessing",
+      "journal_word": "数据预处理/文献清洗与去噪",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 文本清洗"
+    },
+    {
+      "your_word": "outliers",
+      "journal_word": "异常值/噪点数据",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 数据属性"
+    },
+    {
+      "your_word": "feature extraction",
+      "journal_word": "特征提取/技术特征抽取",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 特征表达"
+    },
+    {
+      "your_word": "feature selection",
+      "journal_word": "特征选择/关键变量筛选",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 变量筛选"
+    },
+    {
+      "your_word": "cross-entropy",
+      "journal_word": "交叉熵/信息熵损耗",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 熵度量"
+    },
+    {
+      "your_word": "soft-max",
+      "journal_word": "归一化指数函数",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 标准翻译"
+    },
+    {
+      "your_word": "encoder-decoder",
+      "journal_word": "编码-解码架构/双向变换表征架构",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 架构设计"
+    },
+    {
+      "your_word": "generative model",
+      "journal_word": "生成式模型/生成模型",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 分类"
+    },
+    {
+      "your_word": "discriminative model",
+      "journal_word": "判别式模型",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 分类"
+    },
+    {
+      "your_word": "transfer learning",
+      "journal_word": "迁移学习/跨领域知识迁移",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 迁移特征"
+    },
+    {
+      "your_word": "zero-shot",
+      "journal_word": "零样本/零样本冷启动",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 冷启动验证"
+    },
+    {
+      "your_word": "few-shot",
+      "journal_word": "少样本/少样本提示学习",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 提示学习"
+    },
+    {
+      "your_word": "prompt template",
+      "journal_word": "提示词模板/引导语框架",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 人机交互设计"
+    },
+    {
+      "your_word": "large language model",
+      "journal_word": "大语言模型/大规模预训练语言模型",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 标准简称"
+    },
+    {
+      "your_word": "reinforcement learning from human feedback",
+      "journal_word": "人类反馈强化学习/基于人工对齐的强化学习",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 标准翻译"
+    },
+    {
+      "your_word": "text generation",
+      "journal_word": "文本生成/自然语言生成",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 生成任务"
+    },
+    {
+      "your_word": "entity recognition",
+      "journal_word": "命名实体识别/情报要素抽取",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 信息抽取"
+    },
+    {
+      "your_word": "relation extraction",
+      "journal_word": "关系抽取/关联关系识别",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 关联抽取"
+    },
+    {
+      "your_word": "sentiment analysis",
+      "journal_word": "情感分析/情感倾向度量",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 情感分类"
+    },
+    {
+      "your_word": "topic modeling",
+      "journal_word": "主题模型/潜在主题演化分析",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 文献演化"
+    },
+    {
+      "your_word": "LDA modeling",
+      "journal_word": "潜在狄利克雷分配模型/LDA主题模型",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 经典模型"
+    },
+    {
+      "your_word": "document clustering",
+      "journal_word": "文献聚类/文本关联聚类",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 聚类分析"
+    },
+    {
+      "your_word": "sentence representation",
+      "journal_word": "句子向量表征/句向量表示",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 表征"
+    },
+    {
+      "your_word": "vector search",
+      "journal_word": "向量检索/语义空间检索",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 信息检索"
+    },
+    {
+      "your_word": "k-nearest neighbors",
+      "journal_word": "k近邻/最近邻节点度量",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 检索度量"
+    },
+    {
+      "your_word": "precision-recall curve",
+      "journal_word": "精确率-召回率曲线/P-R曲线",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 度量曲线"
+    },
+    {
+      "your_word": "mean average precision",
+      "journal_word": "平均精确率均值/mAP指标",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 信息检索度量"
+    },
+    {
+      "your_word": "normalized discounted cumulative gain",
+      "journal_word": "归一化折损累计增益/NDCG指标",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 推荐检索评价"
+    },
+    {
+      "your_word": "ranking score",
+      "journal_word": "排序得分/相关度权重",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 排序特征"
+    },
+    {
+      "your_word": "query expansion",
+      "journal_word": "查询扩展/检索词语义扩展",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 扩展检索"
+    },
+    {
+      "your_word": "inverted index",
+      "journal_word": "倒排索引",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 信息检索底层"
+    },
+    {
+      "your_word": "vector space model",
+      "journal_word": "向量空间模型/VSM空间表示",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 信息检索模型"
+    },
+    {
+      "your_word": "tf-idf weights",
+      "journal_word": "TF-IDF 权重/词频-逆文档频率权重",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 权重计算"
+    },
+    {
+      "your_word": "information retrieval",
+      "journal_word": "信息检索/知识检索与匹配",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 经典学科"
+    },
+    {
+      "your_word": "text classification",
+      "journal_word": "文本分类/内容类别判定",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 文本任务"
+    },
+    {
+      "your_word": "knowledge extraction",
+      "journal_word": "知识抽取/情报要素提取",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 知识服务"
+    },
+    {
+      "your_word": "dependency parsing",
+      "journal_word": "依存句法分析/句法关联路径识别",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 语义句法"
+    },
+    {
+      "your_word": "part-of-speech tagging",
+      "journal_word": "词性标注",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 文本分析"
+    },
+    {
+      "your_word": "named entity",
+      "journal_word": "命名实体/情报实体",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 信息提取"
+    },
+    {
+      "your_word": "coreference resolution",
+      "journal_word": "指代消解/共指关系识别",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 指代识别"
+    },
+    {
+      "your_word": "machine translation",
+      "journal_word": "机器翻译/跨语言情报转译",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 转译特征"
+    },
+    {
+      "your_word": "text summarization",
+      "journal_word": "文本摘要/内容摘要提炼",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 提炼任务"
+    },
+    {
+      "your_word": "question answering",
+      "journal_word": "问答系统/智能问答知识服务",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 知识服务"
+    },
+    {
+      "your_word": "chatbot",
+      "journal_word": "对话机器人/人机交互对话代理",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 对话交互"
+    },
+    {
+      "your_word": "vector database storage",
+      "journal_word": "向量数据库存储/高维向量空间存储",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 数据治理"
+    },
+    {
+      "your_word": "similarity search",
+      "journal_word": "相似度计算/语义相似性度量",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 语义计算"
+    },
+    {
+      "your_word": "dot product similarity",
+      "journal_word": "点积相似度",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 相似计算"
+    },
+    {
+      "your_word": "semantic chunking",
+      "journal_word": "语义切片/文本块划分",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 分块策略"
+    },
+    {
+      "your_word": "text chunk",
+      "journal_word": "文本片段/文献块",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 片段概念"
+    },
+    {
+      "your_word": "overlapping window",
+      "journal_word": "重叠滑窗/滑窗重叠策略",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 文本划分"
+    },
+    {
+      "your_word": "dense vector",
+      "journal_word": "稠密向量/低维稠密特征表示",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 特征表示"
+    },
+    {
+      "your_word": "sparse vector",
+      "journal_word": "稀疏向量/高维稀疏特征表示",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 特征表示"
+    },
+    {
+      "your_word": "cross-encoder",
+      "journal_word": "交叉编码器",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 精排模型"
+    },
+    {
+      "your_word": "bi-encoder",
+      "journal_word": "双塔编码器",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 检索模型"
+    },
+    {
+      "your_word": "RAG evaluation",
+      "journal_word": "检索增强质量评估/RAG管道检验",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 评估阶段"
+    },
+    {
+      "your_word": "RAG triad",
+      "journal_word": "RAG三元评估指标",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 质量评估"
+    },
+    {
+      "your_word": "context relevance",
+      "journal_word": "上下文相关性/检索背景关联度",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 检索质量"
+    },
+    {
+      "your_word": "groundedness",
+      "journal_word": "忠实度/可信源支撑率",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 内容质量"
+    },
+    {
+      "your_word": "answer relevance",
+      "journal_word": "回答相关度/生成响应贴合度",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 生成质量"
+    },
+    {
+      "your_word": "system pipeline",
+      "journal_word": "系统管线/协同生成机制",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 强调协同而非工程"
+    },
+    {
+      "your_word": "backend server",
+      "journal_word": "后端服务/数据服务模块",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 数据支持"
+    },
+    {
+      "your_word": "frontend interface",
+      "journal_word": "前端界面/人机交互界面",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 用户接口"
+    },
+    {
+      "your_word": "web application",
+      "journal_word": "Web 应用/系统平台",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 工程名词替换"
+    },
+    {
+      "your_word": "python script",
+      "journal_word": "Python 脚本/分析程序",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 工程名词替换"
+    },
+    {
+      "your_word": "command line execution",
+      "journal_word": "命令行执行/控制台指令运行",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 工程名词替换"
+    },
+    {
+      "your_word": "JSON file",
+      "journal_word": "JSON 配置文件/结构化配置文件",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 工程名词替换"
+    },
+    {
+      "your_word": "yaml config",
+      "journal_word": "YAML 配置文件/层次化配置文件",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 工程名词替换"
+    },
+    {
+      "your_word": "markdown format",
+      "journal_word": "Markdown 格式/结构化标记格式",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 工程名词替换"
+    },
+    {
+      "your_word": "git push command",
+      "journal_word": "代码仓库提交与推送",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 工程名词替换"
+    },
+    {
+      "your_word": "code modification",
+      "journal_word": "代码重构/模块逻辑调整",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 工程名词替换"
+    },
+    {
+      "your_word": "debug trace",
+      "journal_word": "调试追踪/运行路径审计",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 审计特征"
+    },
+    {
+      "your_word": "runtime exception",
+      "journal_word": "运行期异常/程序异常终止",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 工程名词替换"
+    },
+    {
+      "your_word": "log outputs",
+      "journal_word": "系统运行日志",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 日志"
+    },
+    {
+      "your_word": "database schema",
+      "journal_word": "数据库模式/数据结构契约",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 契约"
+    },
+    {
+      "your_word": "relational database",
+      "journal_word": "关系型数据库",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 数据存储"
+    },
+    {
+      "your_word": "SQL injection",
+      "journal_word": "SQL 注入攻击/数据库安全漏洞",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 信息安全"
+    },
+    {
+      "your_word": "security scanner",
+      "journal_word": "安全审计扫描器/代码漏洞检测工具",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 信息安全"
+    },
+    {
+      "your_word": "xss vulnerability",
+      "journal_word": "跨站脚本漏洞/XSS漏洞",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 信息安全"
+    },
+    {
+      "your_word": "authentication key",
+      "journal_word": "鉴权密钥/访问令牌",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 密钥鉴权"
+    },
+    {
+      "your_word": "api connection",
+      "journal_word": "API 连接/接口调用",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 网络交互"
+    },
+    {
+      "your_word": "network proxy server",
+      "journal_word": "网络代理服务器/网络中转代理",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 网络环境"
+    },
+    {
+      "your_word": "environment variables",
+      "journal_word": "系统环境变量/运行期变量配置",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 环境配置"
+    },
+    {
+      "your_word": "conda virtual environment",
+      "journal_word": "Conda 虚拟环境/Python 虚拟沙盒环境",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 运行配置"
+    },
+    {
+      "your_word": "conda env create",
+      "journal_word": "创建 conda 虚拟沙盒环境",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 运行配置"
+    },
+    {
+      "your_word": "requirements txt file",
+      "journal_word": "依赖配置文件/第三方包依赖清单",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 依赖配置"
+    },
+    {
+      "your_word": "dependency mapping",
+      "journal_word": "依赖关系映射/组件依赖拓扑",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 拓扑分析"
+    },
+    {
+      "your_word": "open source repository",
+      "journal_word": "开源代码仓库/开源学术库",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 开源资源"
+    },
+    {
+      "your_word": "software license",
+      "journal_word": "开源协议",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 许可协议"
+    },
+    {
+      "your_word": "system deployment",
+      "journal_word": "系统部署/平台上线与托管",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 系统工程"
+    },
+    {
+      "your_word": "unit testing code",
+      "journal_word": "单元测试/模块测试用例",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 验证"
+    },
+    {
+      "your_word": "integration test pipeline",
+      "journal_word": "集成测试管线/系统联动集成检验",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 系统验证"
+    },
+    {
+      "your_word": "pytest framework",
+      "journal_word": "pytest 单元测试框架",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 测试工具"
+    },
+    {
+      "your_word": "test execution time",
+      "journal_word": "测试用例耗时",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 耗时"
+    },
+    {
+      "your_word": "log parser",
+      "journal_word": "日志解析器",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 文本解析"
+    },
+    {
+      "your_word": "error handling",
+      "journal_word": "异常处理逻辑/错误恢复机制",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 系统鲁棒性"
+    },
+    {
+      "your_word": "infinite loop",
+      "journal_word": "死循环/逻辑死锁",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 异常状态"
+    },
+    {
+      "your_word": "deadlock",
+      "journal_word": "死锁/资源竞争死锁",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 异常状态"
+    },
+    {
+      "your_word": "memory leakage",
+      "journal_word": "内存泄露/资源开销异常",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 系统开销"
+    },
+    {
+      "your_word": "cpu usage",
+      "journal_word": "CPU占用率/处理器算力消耗",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 硬件度量"
+    },
+    {
+      "your_word": "gpu memory usage",
+      "journal_word": "显存占用/显存算力消耗",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 硬件度量"
+    },
+    {
+      "your_word": "concurrency limit",
+      "journal_word": "并发限制/吞吐极限约束",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 系统吞吐"
+    },
+    {
+      "your_word": "high concurrency",
+      "journal_word": "高并发/高吞吐访问机制",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 系统吞吐"
+    },
+    {
+      "your_word": "multithreading",
+      "journal_word": "多线程并发/线程级并行",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 并行计算"
+    },
+    {
+      "your_word": "multiprocessing",
+      "journal_word": "多进程并发/进程级并行",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 并行计算"
+    },
+    {
+      "your_word": "parallel execution",
+      "journal_word": "并行计算/并行处理",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 并行计算"
+    },
+    {
+      "your_word": "asynchronous tasks",
+      "journal_word": "异步计算任务/异步处理任务",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 并行计算"
+    },
+    {
+      "your_word": "non-blocking I/O",
+      "journal_word": "非阻塞式 I/O",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 系统吞吐"
+    },
+    {
+      "your_word": "socket connection",
+      "journal_word": "套接字连接/网络底层连接",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 底层网络"
+    },
+    {
+      "your_word": "read timeout",
+      "journal_word": "读取超时",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 异常状态"
+    },
+    {
+      "your_word": "api endpoint",
+      "journal_word": "API 接口端点/数据接口端点",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 接口"
+    },
+    {
+      "your_word": "request payload",
+      "journal_word": "请求体数据/输入数据体",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 数据交互"
+    },
+    {
+      "your_word": "response body",
+      "journal_word": "响应体数据/输出数据体",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 数据交互"
+    },
+    {
+      "your_word": "http headers",
+      "journal_word": "HTTP 报头配置",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 底层网络"
+    },
+    {
+      "your_word": "status code 200",
+      "journal_word": "请求成功响应状态码",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 底层网络"
+    },
+    {
+      "your_word": "authorization token",
+      "journal_word": "授权令牌/用户访问令牌",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 密钥鉴权"
+    },
+    {
+      "your_word": "gradio application",
+      "journal_word": "Gradio 图形化交互应用/Gradio平台",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 界面工具"
+    },
+    {
+      "your_word": "web interface rendering",
+      "journal_word": "前端界面渲染/图形化交互界面绘制",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 界面开发"
+    },
+    {
+      "your_word": "interactive text box",
+      "journal_word": "交互式文本输入框/文本输入组件",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 界面开发"
+    },
+    {
+      "your_word": "download attachment button",
+      "journal_word": "附件下载组件/数据导出按钮",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 界面开发"
+    },
+    {
+      "your_word": "real time log printing",
+      "journal_word": "实时日志流式显示",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 界面开发"
+    },
+    {
+      "your_word": "system log dashboard",
+      "journal_word": "系统日志监控看板",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 监控分析"
+    },
+    {
+      "your_word": "web server port",
+      "journal_word": "服务监听端口/Web服务端口",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 网络配置"
+    },
+    {
+      "your_word": "port conflict",
+      "journal_word": "端口占用冲突",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 异常状态"
+    },
+    {
+      "your_word": "local time timestamp",
+      "journal_word": "本地时钟时间戳",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 时间戳"
+    },
+    {
+      "your_word": "utc time format",
+      "journal_word": "UTC 世界标准时间格式",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 网络协议"
+    },
+    {
+      "your_word": "timezone mapping",
+      "journal_word": "时区对齐",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 时间"
+    },
+    {
+      "your_word": "server restart notice",
+      "journal_word": "服务器重启通告",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 系统运行"
+    },
+    {
+      "your_word": "background subprocess",
+      "journal_word": "后台子进程",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 并行计算"
+    },
+    {
+      "your_word": "tmux session dashboard",
+      "journal_word": "Tmux 会话终端/tmux 后台控制台",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 系统管理"
+    },
+    {
+      "your_word": "tmux window navigation",
+      "journal_word": "tmux 窗口导航",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 系统管理"
+    },
+    {
+      "your_word": "shell command prompt",
+      "journal_word": "控制台指令提示符/Shell指令入口",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 系统管理"
+    },
+    {
+      "your_word": "bash script invocation",
+      "journal_word": "Bash脚本调用/Shell脚本执行",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 系统管理"
+    },
+    {
+      "your_word": "git push origin main",
+      "journal_word": "将代码提交至远端主分支",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 代码版本管理"
+    },
+    {
+      "your_word": "local commits",
+      "journal_word": "本地提交记录/本地修订版本",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 代码版本管理"
+    },
+    {
+      "your_word": "git status tracking",
+      "journal_word": "Git工作区状态跟踪",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 代码版本管理"
+    },
+    {
+      "your_word": "git log revisions",
+      "journal_word": "Git修订日志审计",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 代码版本管理"
+    },
+    {
+      "your_word": "untracked modifications",
+      "journal_word": "未跟踪的文件修改",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 代码版本管理"
+    },
+    {
+      "your_word": "staged changes",
+      "journal_word": "已暂存的修订项",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 代码版本管理"
+    },
+    {
+      "your_word": "commit message guidelines",
+      "journal_word": "版本提交日志规范",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 规范约定"
+    },
+    {
+      "your_word": "code review feedback",
+      "journal_word": "代码评审意见反馈/代码规范性审查",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 审查"
+    },
+    {
+      "your_word": "peer coding companion",
+      "journal_word": "结对编程伙伴/智能协同编程代理",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 人工智能协同"
+    },
+    {
+      "your_word": "agentic AI model",
+      "journal_word": "智能体大模型/自主智能体",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 自主智能"
+    },
+    {
+      "your_word": "google deepmind team",
+      "journal_word": "谷歌 DeepMind 团队",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 开发团队"
+    },
+    {
+      "your_word": "advanced agentic coding",
+      "journal_word": "前沿智能体自动编程",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 前沿技术"
+    },
+    {
+      "your_word": "query intent",
+      "journal_word": "检索意图/查询语义倾向",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 信息检索研究中常用意图表达来规避工程的query一词"
+    },
+    {
+      "your_word": "user session",
+      "journal_word": "用户检索会话/交互周期",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 文献计量与信息检索中常用会话周期来描述用户持续检索过程"
+    },
+    {
+      "your_word": "text snippet",
+      "journal_word": "文献片段/文本微块",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 情报分析中为精准对齐常用片段描述"
+    },
+    {
+      "your_word": "embedding matrix",
+      "journal_word": "表征矩阵",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 数学化特征矩阵"
+    },
+    {
+      "your_word": "vector alignment",
+      "journal_word": "向量表征对齐/语义映射对齐",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 用对齐关系描述特征匹配"
+    },
+    {
+      "your_word": "linear regression",
+      "journal_word": "线性回归分析",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 标准统计学词汇"
+    },
+    {
+      "your_word": "gradient boosting",
+      "journal_word": "梯度提升迭代决策树/集成梯度提升",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 学报中常用的集成学习"
+    },
+    {
+      "your_word": "random forest",
+      "journal_word": "随机森林模型/集成决策树方法",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 经典机器学习"
+    },
+    {
+      "your_word": "support vector machine",
+      "journal_word": "支持向量机/空间超平面划分模型",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 经典模型"
+    },
+    {
+      "your_word": "decision tree",
+      "journal_word": "决策树分析法",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 经典决策"
+    },
+    {
+      "your_word": "naive Bayes",
+      "journal_word": "朴素贝叶斯分类/概率先验分类器",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 经典先验"
+    },
+    {
+      "your_word": "hidden Markov model",
+      "journal_word": "隐马尔可夫模型/状态隐转移模型",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 经典状态分析"
+    },
+    {
+      "your_word": "neural layer",
+      "journal_word": "神经元连接层/隐含表征层",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 神经网络词汇"
+    },
+    {
+      "your_word": "forward propagation",
+      "journal_word": "前向信息传播/前向运算",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 参数传播"
+    },
+    {
+      "your_word": "back propagation",
+      "journal_word": "反向参数优化传播/反向误差传递",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 误差传递"
+    },
+    {
+      "your_word": "loss gradient",
+      "journal_word": "损失函数梯度/偏导度量",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 寻优"
+    },
+    {
+      "your_word": "weight matrix",
+      "journal_word": "权重关联矩阵",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 网络拓扑"
+    },
+    {
+      "your_word": "bias vector",
+      "journal_word": "偏置项向量",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 网络拓扑"
+    },
+    {
+      "your_word": "standard deviation",
+      "journal_word": "标准差/离散度量",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 数据统计"
+    },
+    {
+      "your_word": "mean squared error",
+      "journal_word": "均方误差/二次损耗均值",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 模型误差评估"
+    },
+    {
+      "your_word": "mean absolute error",
+      "journal_word": "平均绝对误差",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 模型误差评估"
+    },
+    {
+      "your_word": "R-squared score",
+      "journal_word": "拟合优度判定系数/R2评价值",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 回归评估"
+    },
+    {
+      "your_word": "exploratory analysis",
+      "journal_word": "探索性数据分析/探索性情报审计",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 情报学经典流程"
+    },
+    {
+      "your_word": "empirical validation",
+      "journal_word": "实证检验/经验性实证",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 强化学报的实证属性"
+    },
+    {
+      "your_word": "ablation testing",
+      "journal_word": "消融对照实验/消融性控制变量分析",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 描述消融实验"
+    },
+    {
+      "your_word": "comparative evaluation",
+      "journal_word": "对比分析与可行性检验/对比性基准评测",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 对比实验"
+    },
+    {
+      "your_word": "baseline model",
+      "journal_word": "基准对照模型/基准算法",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 对比对象"
+    },
+    {
+      "your_word": "data imbalance",
+      "journal_word": "数据分布非均衡性/样本倾斜",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 样本特征描述"
+    },
+    {
+      "your_word": "synthetic data",
+      "journal_word": "合成样本/模拟情报数据",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 非真实数据描述"
+    },
+    {
+      "your_word": "real-world scenario",
+      "journal_word": "真实情报场景/现实业务应用场景",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 强调场景属性"
+    },
+    {
+      "your_word": "cross-domain search",
+      "journal_word": "跨领域知识挖掘与匹配/跨域检索",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 知识发现常用词"
+    },
+    {
+      "your_word": "cold start problem",
+      "journal_word": "冷启动瓶颈/系统初始化稀疏性问题",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 推荐与检索常用词"
+    },
+    {
+      "your_word": "user behavior analysis",
+      "journal_word": "用户行为特征审计/用户行为模式识别",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 行为科学常用词"
+    },
+    {
+      "your_word": "log file dataset",
+      "journal_word": "系统交互日志集/交互轨迹数据集",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 行为日志描述"
+    },
+    {
+      "your_word": "temporal evolution",
+      "journal_word": "时间维度演化分析/时序演变特征",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 文献计量学经典描述"
+    },
+    {
+      "your_word": "knowledge dissemination",
+      "journal_word": "知识传播机制/知识流动路径",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 情报学核心研究问题"
+    },
+    {
+      "your_word": "information leakage",
+      "journal_word": "信息泄露安全漏洞/信息安全流失",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 安全情报常用词"
+    },
+    {
+      "your_word": "data governance",
+      "journal_word": "数据治理体系/信息资源治理",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 图情学科核心政策方向"
+    },
+    {
+      "your_word": "metadata tagging",
+      "journal_word": "元数据标引/特征要素属性标注",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 标引"
+    },
+    {
+      "your_word": "ontology mapping",
+      "journal_word": "本体关联映射/语义本体对齐",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 本体论图情词汇"
+    },
+    {
+      "your_word": "semantic interoperability",
+      "journal_word": "语义互操作性/跨系统语义兼容",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 标准图情术语"
+    },
+    {
+      "your_word": "knowledge organization",
+      "journal_word": "知识组织体系",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 经典图情二级学科"
+    },
+    {
+      "your_word": "information literacy",
+      "journal_word": "信息素养/信息查检能力",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 经典图情研究"
+    },
+    {
+      "your_word": "citation analysis",
+      "journal_word": "引文分析与计量/学术引用计量",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 文献计量学科"
+    },
+    {
+      "your_word": "bibliometric study",
+      "journal_word": "文献计量学实证分析",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 经典计量"
+    },
+    {
+      "your_word": "co-citation network",
+      "journal_word": "同被引网络/共引关系拓扑",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 文献计量分析"
+    },
+    {
+      "your_word": "co-occurrence analysis",
+      "journal_word": "共现分析/要素共现计量",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 文献计量分析"
+    },
+    {
+      "your_word": "author cooperation",
+      "journal_word": "合著网络/学者协同网络",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 学者合作分析"
+    },
+    {
+      "your_word": "academic impact",
+      "journal_word": "学术影响力评价/学术传播广度",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 计量评估"
+    },
+    {
+      "your_word": "journal citation reports",
+      "journal_word": "期刊引证分析报告",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 引证指标"
+    },
+    {
+      "your_word": "h-index ranking",
+      "journal_word": "H指数计量/学者学术产出深度度量",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 学术评价"
+    },
+    {
+      "your_word": "impact factor",
+      "journal_word": "影响因子指标/引证贡献系数",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 期刊评估"
+    },
+    {
+      "your_word": "information entropy",
+      "journal_word": "信息熵值度量",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 熵计算"
+    },
+    {
+      "your_word": "probability distribution",
+      "journal_word": "概率分布特征/随机密度分布",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 数理统计"
+    },
+    {
+      "your_word": "data visualization",
+      "journal_word": "数据可视化表征/多维图谱表征",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 信息可视化"
+    },
+    {
+      "your_word": "dynamic graph",
+      "journal_word": "动态关联图谱/时序拓扑网络",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 网络拓扑"
+    },
+    {
+      "your_word": "link prediction",
+      "journal_word": "关系链接预测/潜在关联预测",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 社交网络分析"
+    },
+    {
+      "your_word": "node classification",
+      "journal_word": "网络节点属性判别/节点角色分类",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 网络拓扑分析"
+    },
+    {
+      "your_word": "community detection",
+      "journal_word": "网络社区发现/关联社群聚类",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 网络社群分析"
+    },
+    {
+      "your_word": "social network graph",
+      "journal_word": "社会网络分析图谱/学者交互网络",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 经典方法"
+    },
+    {
+      "your_word": "web search engine",
+      "journal_word": "网络检索系统/网络搜索引擎",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 检索领域"
+    },
+    {
+      "your_word": "crawler framework",
+      "journal_word": "数据采集程序/网络文献爬取工具",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 工程名词替换"
+    },
+    {
+      "your_word": "user query log",
+      "journal_word": "用户检索轨迹日志/检索意图数据集",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 行为计量"
+    },
+    {
+      "your_word": "recommendation engine",
+      "journal_word": "个性化知识服务推送机制/推荐系统",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 服务机制说明"
+    },
+    {
+      "your_word": "collaborative filtering",
+      "journal_word": "协同过滤推荐机制/关联群组偏好计算",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 算法特征描述"
+    },
+    {
+      "your_word": "content-based method",
+      "journal_word": "基于内容关联的匹配方法",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 检索推荐"
+    },
+    {
+      "your_word": "hybrid recommendation",
+      "journal_word": "混合式知识推荐机制",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 检索推荐"
+    },
+    {
+      "your_word": "user preference matrix",
+      "journal_word": "用户兴趣偏好度量矩阵",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 用户画像"
+    },
+    {
+      "your_word": "latent factor model",
+      "journal_word": "潜在因子关联映射模型/隐因子模型",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 算法模型"
+    },
+    {
+      "your_word": "matrix factorization",
+      "journal_word": "矩阵分解技术/空间特征降维分解",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 算法"
+    },
+    {
+      "your_word": "deep learning framework",
+      "journal_word": "深度学习算法模型/深层神经网络框架",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 网络框架"
+    },
+    {
+      "your_word": "convolutional network",
+      "journal_word": "卷积神经网络模型",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 图像或序列分析"
+    },
+    {
+      "your_word": "recurrent network",
+      "journal_word": "循环神经网络模型",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 时序分析"
+    },
+    {
+      "your_word": "long short-term memory",
+      "journal_word": "长短期记忆神经网络模型",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 时序分析"
+    },
+    {
+      "your_word": "gated recurrent unit",
+      "journal_word": "门控循环单元神经网络模型",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 时序分析"
+    },
+    {
+      "your_word": "attention weight",
+      "journal_word": "注意力分配权重/语义注意力系数",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 权重系数"
+    },
+    {
+      "your_word": "self-attention",
+      "journal_word": "自注意力分配机制",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 标准术语"
+    },
+    {
+      "your_word": "multi-head attention",
+      "journal_word": "多头注意力融合机制",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 标准术语"
+    },
+    {
+      "your_word": "positional encoding",
+      "journal_word": "位置关联编码/时序位置表征",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 特征编码"
+    },
+    {
+      "your_word": "sequence labeling",
+      "journal_word": "序列标注与要素识别/序列标注",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 文本分析"
+    },
+    {
+      "your_word": "named entity recognition",
+      "journal_word": "命名实体识别/情报要素抽取",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 经典任务"
+    },
+    {
+      "your_word": "coreference network",
+      "journal_word": "共指关系图谱",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 知识组织"
+    },
+    {
+      "your_word": "text similarity score",
+      "journal_word": "文本语义相似度/文本内容贴合系数",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 语义测度"
+    },
+    {
+      "your_word": "vector quantization",
+      "journal_word": "向量量化编码/离散特征映射",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 特征量化"
+    },
+    {
+      "your_word": "dimensionality reduction",
+      "journal_word": "特征空间降维",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 信息科学常用词"
+    },
+    {
+      "your_word": "text partition",
+      "journal_word": "文本聚类划分/主题板块切分",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 分类分析"
+    },
+    {
+      "your_word": "topic extraction",
+      "journal_word": "主题提取/情报主题发现",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 主题分析"
+    },
+    {
+      "your_word": "topic distribution",
+      "journal_word": "主题概率分布/文献主题倾向",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 主题分析"
+    },
+    {
+      "your_word": "semantic matching",
+      "journal_word": "语义相似性匹配/语义关联映射",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 检索映射"
+    },
+    {
+      "your_word": "fine-tuned parameters",
+      "journal_word": "模型校准参数/适配训练参数",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 调优"
+    },
+    {
+      "your_word": "parameter initialization",
+      "journal_word": "参数空间初始化",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 优化基础"
+    },
+    {
+      "your_word": "learning algorithm",
+      "journal_word": "参数迭代学习算法",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 寻优"
+    },
+    {
+      "your_word": "cost reduction",
+      "journal_word": "资源开销优化/算力成本缩减",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 系统性能"
+    },
+    {
+      "your_word": "throughput capacity",
+      "journal_word": "系统吞吐能力/高并发负载承载力",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 吞吐特征"
+    },
+    {
+      "your_word": "response time latency",
+      "journal_word": "系统响应时延/访问时延表现",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 时延表现"
+    },
+    {
+      "your_word": "information retrieval query",
+      "journal_word": "信息检索提问式/检索式表达式",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 图情经典概念"
+    },
+    {
+      "your_word": "search performance",
+      "journal_word": "检索效能表现/检索效率评估",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 检索分析"
+    },
+    {
+      "your_word": "semantic expansion",
+      "journal_word": "语义关联扩展/检索提问扩展",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 信息检索"
+    },
+    {
+      "your_word": "relevance feedback",
+      "journal_word": "相关性反馈机制",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 标准图情概念"
+    },
+    {
+      "your_word": "pseudo-relevance feedback",
+      "journal_word": "伪相关性反馈机制",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 标准图情概念"
+    },
+    {
+      "your_word": "language model smoothing",
+      "journal_word": "语言模型平滑技术/平滑算法",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 文本统计"
+    },
+    {
+      "your_word": "dirichlet smoothing",
+      "journal_word": "狄利克雷平滑参数校准",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 文本统计"
+    },
+    {
+      "your_word": "linear interpolation",
+      "journal_word": "线性插值融合技术/线性插值平滑",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 算法数学"
+    },
+    {
+      "your_word": "evaluation dataset",
+      "journal_word": "评测基准数据集/实证检验样本集",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 数据集"
+    },
+    {
+      "your_word": "system benchmark",
+      "journal_word": "系统基准评测/系统比对测试",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 系统评测"
+    },
+    {
+      "your_word": "test sample set",
+      "journal_word": "测试样本序列/检验测试集",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 样本"
+    },
+    {
+      "your_word": "gold standard validation",
+      "journal_word": "黄金标准实证校验/金标准检验",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 实证描述"
+    },
+    {
+      "your_word": "annotator consensus",
+      "journal_word": "人工标注一致性测度",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 标注评估"
+    },
+    {
+      "your_word": "kappa coefficient",
+      "journal_word": "Kappa一致性检验系数",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 标注评估"
+    },
+    {
+      "your_word": "inter-rater reliability",
+      "journal_word": "评判者信度一致性度量",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 标注评估"
+    },
+    {
+      "your_word": "user satisfaction survey",
+      "journal_word": "用户满意度实证调查",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 图情经典实证"
+    },
+    {
+      "your_word": "likert scale survey",
+      "journal_word": "李克特量表度量法",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 图情经典实证"
+    },
+    {
+      "your_word": "questionnaire research",
+      "journal_word": "问卷调查研究法",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 图情经典实证"
+    },
+    {
+      "your_word": "semi-structured interview",
+      "journal_word": "半结构化访谈研究",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 质性研究方法"
+    },
+    {
+      "your_word": "qualitative analysis",
+      "journal_word": "质性研究与内容分析",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 经典方法"
+    },
+    {
+      "your_word": "quantitative analysis",
+      "journal_word": "定量计量与统计分析",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 经典方法"
+    },
+    {
+      "your_word": "content analysis",
+      "journal_word": "内容分析法/文本语义内容审计",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 经典图情研究方法"
+    },
+    {
+      "your_word": "discourse analysis",
+      "journal_word": "话语分析与叙事结构审计",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 质性研究方法"
+    },
+    {
+      "your_word": "statistical validation",
+      "journal_word": "统计显著性检验/数理统计验证",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 显著性"
+    },
+    {
+      "your_word": "t-test significance",
+      "journal_word": "t检验显著性水平",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 数理统计"
+    },
+    {
+      "your_word": "anova testing",
+      "journal_word": "方差分析显著性检验",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 数理统计"
+    },
+    {
+      "your_word": "chi-square test",
+      "journal_word": "卡方检验拟合度评估",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 数理统计"
+    },
+    {
+      "your_word": "correlation analysis",
+      "journal_word": "关联相关性分析/特征相关度量",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 计量分析"
+    },
+    {
+      "your_word": "regression coefficient",
+      "journal_word": "回归系数测度/贡献弹性系数",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 计量分析"
+    },
+    {
+      "your_word": "p-value threshold",
+      "journal_word": "P值显著性阈值",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 数理统计"
+    },
+    {
+      "your_word": "confidence interval",
+      "journal_word": "置信区间范围度量",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 数理统计"
+    },
+    {
+      "your_word": "user feedback tracking",
+      "journal_word": "用户反馈审计机制",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 行为科学"
+    },
+    {
+      "your_word": "search intent log",
+      "journal_word": "检索意图日志流",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 行为计量"
+    },
+    {
+      "your_word": "information retrieval metric",
+      "journal_word": "信息检索效果评估指标",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 检索评估"
+    },
+    {
+      "your_word": "citation context",
+      "journal_word": "引文语境分析/引文情感倾向分析",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 文献计量"
+    },
+    {
+      "your_word": "co-citation cluster",
+      "journal_word": "同被引用聚类群组/文献同引族群",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 文献计量"
+    },
+    {
+      "your_word": "co-word map",
+      "journal_word": "共词分析图谱/关键词共现图谱",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 文献计量"
+    },
+    {
+      "your_word": "bibliographic coupling",
+      "journal_word": "文献耦合分析/引文耦合度量",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 文献计量"
+    },
+    {
+      "your_word": "scholar database profile",
+      "journal_word": "学者画像表征/学者学术轨迹画像",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 计量描述"
+    },
+    {
+      "your_word": "patent citation graph",
+      "journal_word": "专利引用拓扑网络/专利共引特征",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 图情二级学科"
+    },
+    {
+      "your_word": "technology tracking",
+      "journal_word": "技术主题演化追踪",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 技术情报分析"
+    },
+    {
+      "your_word": "competitive intelligence",
+      "journal_word": "竞争情报分析与对手审计",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 竞争情报分支"
+    },
+    {
+      "your_word": "knowledge mapping dashboard",
+      "journal_word": "科学知识图谱监测看板/知识图谱",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 信息可视化"
+    },
+    {
+      "your_word": "citation velocity",
+      "journal_word": "引文增长速率表现/文献引证时序特征",
+      "frequency_in_top_papers": 3,
+      "context_example": "情报学报规范对照: 文献计量"
     }
   ]
 }
